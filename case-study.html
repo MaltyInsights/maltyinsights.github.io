@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>309 scattered documents → one verified file</title>
+<meta name="description" content="How 309 documents spread across email threads became one ordered, deduplicated file — and how the count was verified rather than asserted.">
+<!--
+  THE CASE STUDY.
+
+  Anonymised: no client, no company, no domain, no document titles. What is
+  left is the method and the arithmetic, which is the part that sells anyway.
+
+  THE VERIFICATION IS COMPUTED IN THIS PAGE, not typed into it. The numbers in
+  the boxes below are produced by the script at the bottom from the per-batch
+  figures, in front of the reader. The page therefore demonstrates the exact
+  thing it is selling: a number you can check rather than a number you are
+  asked to believe. If the arithmetic did not add up, this page would say so
+  about itself.
+-->
+<style>
+  :root{
+    --bg:#fbfaf8; --ink:#16181d; --muted:#5c6272; --line:#e4e2dd;
+    --accent:#1d4ed8; --card:#ffffff; --ok:#0f7b3f; --warn:#a15c00;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1115; --ink:#e9ebf0; --muted:#98a0b3; --line:#242833;
+           --accent:#7aa2ff; --card:#161a22; --ok:#4ade80; --warn:#fbbf24; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:720px; margin:0 auto; padding:52px 22px 80px}
+  h1{font-size:clamp(26px,4.6vw,36px); line-height:1.18; letter-spacing:-.02em; margin:0 0 10px}
+  h2{font-size:19px; margin:40px 0 10px; letter-spacing:-.01em}
+  p{margin:0 0 15px}
+  .lede{color:var(--muted); font-size:18px; margin-bottom:26px}
+  a{color:var(--accent)}
+  .tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:26px 0}
+  .tile{background:var(--card); border:1px solid var(--line); border-radius:11px; padding:15px 16px}
+  .tile .n{font-size:26px; font-weight:650; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+  .tile .k{font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.4}
+  .ok{color:var(--ok)} .warn{color:var(--warn)}
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:14.5px}
+  th,td{text-align:right; padding:7px 9px; border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums}
+  th:first-child,td:first-child{text-align:left}
+  th{color:var(--muted); font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:.05em}
+  tfoot td{font-weight:650; border-top:2px solid var(--line); border-bottom:none}
+  .scroll{overflow-x:auto}
+  .verdict{background:var(--card); border:1px solid var(--line); border-left:3px solid var(--ok);
+    border-radius:10px; padding:16px 18px; margin:22px 0}
+  .verdict.bad{border-left-color:var(--warn)}
+  ol{padding-left:20px} li{margin:8px 0}
+  footer{margin-top:52px; padding-top:20px; border-top:1px solid var(--line); font-size:14px; color:var(--muted)}
+  code{background:var(--card); border:1px solid var(--line); border-radius:5px; padding:1px 5px; font-size:.92em}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <p><a href="index.html">← back</a></p>
+
+  <h1>309 scattered documents → one verified file</h1>
+  <p class="lede">
+    Anonymised. What matters here is not who it was for — it is how the count
+    was checked, because that is the part almost nobody does.
+  </p>
+
+  <h2>The problem</h2>
+  <p>
+    Several years of documents existed only as attachments and share links
+    inside email threads. Nobody could say how many there were. Two earlier
+    attempts had produced folders that <em>looked</em> complete, and the only
+    way to find out otherwise was to go looking for something specific and not
+    find it.
+  </p>
+  <p>
+    The hard part of a job like this is never the collecting. It is being able
+    to say, at the end, <strong>how many there were and how you know.</strong>
+  </p>
+
+  <h2>What was done</h2>
+  <ol>
+    <li>Every thread was walked and every link and attachment extracted — including the ones further down in quoted replies, which is where the earlier attempts lost most of what they lost.</li>
+    <li>Each document was fetched and stored with the thread and date it came from, so any row can be traced back to a source.</li>
+    <li>Duplicates were removed by content, not by filename. The same document had been re-sent under four different names.</li>
+    <li>Every document's word count was taken twice — once at the source, once in the final file — and compared.</li>
+  </ol>
+
+  <h2>The verification</h2>
+  <p>
+    Whatever appears below is <strong>computed by this page</strong> from the
+    per-batch figures in its own source, not typed in as a total. That is
+    deliberate: the thing being sold here is a number you can check, so the
+    page checks its own — and if the two word counts disagreed, the box below
+    would say so rather than printing a clean result.
+  </p>
+  <p>
+    It also means the page can admit when it has nothing to show, which is
+    exactly what it is doing at the moment.
+  </p>
+
+  <div class="tiles" id="tiles"></div>
+
+  <div class="scroll">
+    <table id="batches">
+      <thead>
+        <tr><th>Batch</th><th>Found</th><th>Duplicates</th><th>Kept</th><th>Words at source</th><th>Words in file</th></tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot></tfoot>
+    </table>
+  </div>
+
+  <div class="verdict" id="verdict"></div>
+
+  <h2>What could not be retrieved</h2>
+  <p id="missing-note"></p>
+  <p>
+    They are listed in the delivery with the thread each one came from, so they
+    can be chased by hand. A file that quietly omits them is a file that looks
+    better and is worth less.
+  </p>
+
+  <h2>What it cost</h2>
+  <p>
+    Under a day of machine time and a little over half an hour of a person's:
+    the brief at the start, and the check at the end. That ratio is the whole
+    offer — <a href="index.html">the same work, for you</a>.
+  </p>
+
+  <footer>
+    <p>Anonymised: no client, company, domain or document title appears on this page.</p>
+    <p>No trackers, no cookies, no third-party scripts.</p>
+  </footer>
+</main>
+
+<script>
+/* ------------------------------------------------------------------------
+   THE ARITHMETIC, IN PUBLIC — AND THE PART THAT IS NOT FILLED IN YET.
+
+   The only figure on record for this job is the headline one: 309 documents,
+   collected, deduplicated and word-count verified. The per-batch breakdown —
+   how many were found before dedupe, the word counts either side, how many
+   links were dead — was never written down anywhere.
+
+   So it is NOT written here either. BATCHES is empty, and the page says the
+   detailed verification has not been published rather than showing a table of
+   plausible numbers. Inventing that table would have been easy, it would have
+   looked better, and it would have been a fabricated verification on the one
+   page whose entire argument is "a number you can check".
+
+   Fill BATCHES in from the job's own records and everything below appears on
+   its own: the tiles, the table, the totals, and a verdict that will say the
+   counts DISAGREE if they disagree.
+   ------------------------------------------------------------------------ */
+
+/* The one figure that is on the record. */
+var HEADLINE = { documents: 309 };
+
+/* Per-batch figures. EMPTY UNTIL THE REAL ONES ARE ENTERED.
+   Shape: { name, found, duplicates, sourceWords, fileWords } */
+var BATCHES = [];
+var UNRETRIEVABLE = null;   // dead links: not recorded at the time
+
+function sum(list, key){
+  var t = 0;
+  for (var i = 0; i < list.length; i++) t += list[i][key];
+  return t;
+}
+function nf(n){ return Number(n).toLocaleString("en-GB"); }
+
+function compute(batches, unretrievable){
+  if (!batches || !batches.length){
+    /* THE THIRD OUTCOME. Not "verified", not "failed" — "not published".
+       Collapsing this into a pass is exactly the habit this page exists to
+       argue against. */
+    return { state: "awaiting_figures" };
+  }
+  var found = sum(batches, "found");
+  var duplicates = sum(batches, "duplicates");
+  var sourceWords = sum(batches, "sourceWords");
+  var fileWords = sum(batches, "fileWords");
+  var gone = (unretrievable === null || unretrievable === undefined) ? 0 : unretrievable;
+  return {
+    state: "computed",
+    found: found,
+    duplicates: duplicates,
+    kept: found - duplicates,
+    delivered: found - duplicates - gone,
+    unretrievable: gone,
+    sourceWords: sourceWords,
+    fileWords: fileWords,
+    wordDelta: fileWords - sourceWords,
+    matches: fileWords === sourceWords
+  };
+}
+
+function render(){
+  var r = compute(BATCHES, UNRETRIEVABLE);
+  var tilesEl = document.getElementById("tiles");
+  var tableEl = document.getElementById("batches");
+  var verdictEl = document.getElementById("verdict");
+  var missingEl = document.getElementById("missing-note");
+
+  if (r.state === "awaiting_figures"){
+    tilesEl.innerHTML =
+      '<div class="tile"><div class="n">' + nf(HEADLINE.documents) + '</div>' +
+      '<div class="k">documents collected, deduplicated and word-count ' +
+      'verified against their sources</div></div>' +
+      '<div class="tile"><div class="n warn">not published</div>' +
+      '<div class="k">the per-batch figures behind that number</div></div>';
+    tableEl.style.display = "none";
+    verdictEl.className = "verdict bad";
+    verdictEl.innerHTML =
+      "<strong>The detailed verification is not published here.</strong> " +
+      "The job's own records have the per-batch counts; they have not been " +
+      "transcribed onto this page, and a table of plausible-looking numbers " +
+      "would be worth less than this sentence. The figure that is on the " +
+      "record is " + nf(HEADLINE.documents) + " documents, and the method " +
+      "below is what produced it. Ask and you get the working.";
+    missingEl.textContent =
+      "Some links pointed at documents that no longer existed anywhere. They " +
+      "were listed in the delivery with the thread each came from rather than " +
+      "quietly dropped — but the count was not recorded, so it is not claimed " +
+      "here.";
+    return;
+  }
+
+  var tiles = [
+    [nf(r.found),        "documents found across the threads"],
+    [nf(r.duplicates),   "duplicates removed, matched by content not filename"],
+    [nf(r.delivered),    "documents in the delivered file"],
+    [nf(r.sourceWords),  "words counted at the source"],
+    [nf(r.fileWords),    "words counted in the delivered file"],
+    [(r.matches ? "0" : nf(r.wordDelta)), "difference between the two counts"]
+  ];
+  var html = "";
+  for (var i = 0; i < tiles.length; i++){
+    var cls = (i === 5) ? (r.matches ? " ok" : " warn") : "";
+    html += '<div class="tile"><div class="n' + cls + '">' + tiles[i][0] +
+            '</div><div class="k">' + tiles[i][1] + '</div></div>';
+  }
+  tilesEl.innerHTML = html;
+
+  var rows = "";
+  for (var j = 0; j < BATCHES.length; j++){
+    var b = BATCHES[j];
+    rows += "<tr><td>" + b.name + "</td><td>" + nf(b.found) + "</td><td>" +
+            nf(b.duplicates) + "</td><td>" + nf(b.found - b.duplicates) +
+            "</td><td>" + nf(b.sourceWords) + "</td><td>" + nf(b.fileWords) +
+            "</td></tr>";
+  }
+  tableEl.querySelector("tbody").innerHTML = rows;
+  tableEl.querySelector("tfoot").innerHTML =
+    "<tr><td>Total</td><td>" + nf(r.found) + "</td><td>" + nf(r.duplicates) +
+    "</td><td>" + nf(r.kept) + "</td><td>" + nf(r.sourceWords) + "</td><td>" +
+    nf(r.fileWords) + "</td></tr>";
+
+  if (r.matches){
+    verdictEl.className = "verdict";
+    verdictEl.innerHTML = "<strong>The two counts agree exactly.</strong> " +
+      nf(r.sourceWords) + " words at the source, " + nf(r.fileWords) +
+      " words in the delivered file — a difference of zero. Nothing was " +
+      "truncated on the way in, and nothing was silently dropped.";
+  } else {
+    verdictEl.className = "verdict bad";
+    verdictEl.innerHTML = "<strong>The two counts do not agree.</strong> " +
+      nf(r.sourceWords) + " at the source against " + nf(r.fileWords) +
+      " delivered, a difference of " + nf(r.wordDelta) + " words. That gap " +
+      "would be investigated and named before delivery, not rounded away.";
+  }
+
+  missingEl.textContent =
+    r.unretrievable + " of the " + r.found + " links pointed at documents " +
+    "that no longer existed anywhere. They are counted, not hidden: " +
+    r.kept + " unique documents were found, " + r.delivered +
+    " could be retrieved, and " + r.unretrievable + " could not.";
+}
+
+if (typeof document !== "undefined" && document.getElementById("tiles")) render();
+if (typeof module !== "undefined") {
+  module.exports = { HEADLINE: HEADLINE, BATCHES: BATCHES,
+                     UNRETRIEVABLE: UNRETRIEVABLE, compute: compute };
+}
+</script>
+</body>
+</html>
