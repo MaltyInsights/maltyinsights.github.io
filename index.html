@@ -1,143 +1,94 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Messy data → one clean, verified file — in 24 hours</title>
-<meta name="description" content="You send the mess. You get back one ordered file with the row count, the source list, and a note on anything that could not be retrieved.">
-<!--
-  THE STOREFRONT. One service, one price, one proof.
-
-  Deliberately not a menu. A page offering six services asks the visitor to
-  work out which one they need, and a visitor who has to work something out
-  leaves. This offers the one thing we have actually done and can guarantee
-  (SALG_PROFILER §1: sell work where the buyer can see for themselves whether
-  it worked).
-
-  Self-contained on purpose: no font, script, analytics or image from anywhere
-  else. It loads on a bad connection, it cannot break because someone else's
-  CDN did, and it sends nothing about the visitor to a third party.
-
-  PAYMENT LINK IS A PLACEHOLDER. It goes nowhere until the operator puts a real
-  one in, and it SAYS so rather than looking live and failing — a checkout that
-  404s costs the customer you spent three weeks earning.
--->
-<style>
-  :root{
-    --bg:#fbfaf8; --ink:#16181d; --muted:#5c6272; --line:#e4e2dd;
-    --accent:#1d4ed8; --card:#ffffff; --ok:#0f7b3f;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{ --bg:#0f1115; --ink:#e9ebf0; --muted:#98a0b3; --line:#242833;
-           --accent:#7aa2ff; --card:#161a22; --ok:#4ade80; }
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    -webkit-text-size-adjust:100%;
-  }
-  .wrap{max-width:680px; margin:0 auto; padding:56px 22px 80px}
-  h1{font-size:clamp(28px,5vw,40px); line-height:1.15; letter-spacing:-.02em; margin:0 0 14px}
-  h2{font-size:20px; letter-spacing:-.01em; margin:44px 0 12px}
-  p{margin:0 0 16px}
-  .lede{font-size:19px; color:var(--muted); margin-bottom:32px}
-  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin:28px 0}
-  .price{font-size:32px; font-weight:640; letter-spacing:-.02em}
-  .price small{font-size:15px; font-weight:400; color:var(--muted)}
-  ul{margin:0 0 16px; padding-left:20px}
-  li{margin:6px 0}
-  a{color:var(--accent)}
-  .btn{
-    display:inline-block; background:var(--accent); color:#fff; text-decoration:none;
-    padding:13px 22px; border-radius:9px; font-weight:600; margin-top:6px;
-  }
-  .btn[aria-disabled="true"]{background:var(--muted); cursor:not-allowed}
-  .note{font-size:13.5px; color:var(--muted); margin-top:10px}
-  .steps{counter-reset:s; list-style:none; padding:0}
-  .steps li{counter-increment:s; position:relative; padding-left:34px; margin:12px 0}
-  .steps li::before{
-    content:counter(s); position:absolute; left:0; top:1px; width:23px; height:23px;
-    border-radius:50%; background:var(--accent); color:#fff; font-size:13px;
-    display:grid; place-items:center; font-weight:600;
-  }
-  .tick{color:var(--ok); font-weight:600}
-  footer{margin-top:56px; padding-top:22px; border-top:1px solid var(--line); font-size:14px; color:var(--muted)}
-  code{background:var(--card); border:1px solid var(--line); border-radius:5px; padding:1px 5px; font-size:.92em}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Nordverify | Websites, fixes, automation and data</title>
+  <meta name="description" content="Nordverify builds websites, fixes existing sites, automates repetitive work and turns messy business data into useful files.">
+  <meta property="og:title" content="Nordverify | Websites, fixes, automation and data">
+  <meta property="og:description" content="Direct help with websites, automation and data from Malthe Merved in Denmark.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/brand/wordmark_dark_1600x400.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="assets/brand/favicon_256.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/brand/favicon_64.png">
+  <link href="css/styles.css" rel="stylesheet">
+  <link href="css/nordverify.css" rel="stylesheet">
 </head>
-<body>
-<main class="wrap">
+<body id="page-top">
+  <nav class="navbar navbar-expand-lg fixed-top py-3" id="mainNav">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="#page-top"><img src="assets/brand/mark_transparent_512.png" alt=""><span>Nordverify</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Open navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto my-2 my-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="#portfolio">Examples</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-  <h1>You send the mess. You get back one file you can actually use.</h1>
-  <p class="lede">
-    Documents, exports, pages, scans — scattered across folders and threads.
-    I collect them, remove the duplicates, and hand back one ordered file
-    <strong>with the count verified against the sources</strong>. Usually inside
-    24 hours.
-  </p>
+  <header class="masthead">
+    <img class="hero-mark" src="assets/brand/mark_transparent_512.png" alt="" aria-hidden="true">
+    <div class="container px-4 px-lg-5 h-100 d-flex align-items-center">
+      <div class="hero-copy">
+        <div class="eyebrow mb-4">Web and automation · Denmark</div>
+        <h1 class="text-white mb-4">I build websites, fix broken ones, automate routine work and clean up messy data</h1>
+        <p class="lead mb-5">Tell me what needs to work. I will reply with a clear scope, a fixed price and what I need from you before I begin.</p>
+        <a class="btn btn-primary btn-xl" href="mailto:merved@nordverify.com?subject=Project%20enquiry">Contact me</a>
+      </div>
+    </div>
+  </header>
 
-  <div class="card">
-    <div class="price">from 2.400 kr <small>/ ~$350 · fixed price, agreed before I start</small></div>
-    <p class="note">
-      Price depends on how much there is and where it lives. Send the mess and
-      you get a fixed number back the same day — not an hourly rate that grows.
-    </p>
-    <a class="btn" href="#contact" aria-disabled="true" data-payment-placeholder="true">
-      Get a fixed price — reply within the day
-    </a>
-    <p class="note" id="payment-note">
-      <!-- Replaced by the operator with a real Lemon Squeezy / Stripe link.
-           Until then this says what it is instead of pretending to work. -->
-      Payment link not connected yet — use the email below and I will send you
-      one with the quote.
-    </p>
-  </div>
+  <section class="page-section" id="about">
+    <div class="container px-4 px-lg-5"><div class="row justify-content-center"><div class="col-lg-9">
+      <div class="eyebrow mb-3" style="color:#12293f">About</div>
+      <h2 class="section-heading">You write directly to the person doing the work</h2>
+      <p class="mb-0">I am Malthe Merved. I work from Denmark in European business hours, and I answer the same day. There is no account manager or handover between your message and the work itself.</p>
+    </div></div></div>
+  </section>
 
-  <h2>What you get, exactly</h2>
-  <ul>
-    <li>One file — CSV, Excel, JSON or Markdown, whichever fits what you do next.</li>
-    <li><span class="tick">The row count</span>, verified against the sources rather than asserted.</li>
-    <li>The list of every source it came from.</li>
-    <li>A written note on <strong>anything I could not retrieve</strong>, and why.</li>
-  </ul>
-  <p>
-    That last one is the part most people have not had before. If something is
-    missing, you hear it from me before you find it yourself.
-  </p>
+  <section class="page-section" id="services">
+    <div class="container px-4 px-lg-5">
+      <div class="eyebrow mb-3">Services</div><h2 class="section-heading">What I do</h2>
+      <div class="row gx-4 gx-lg-5 mt-4">
+        <div class="col-lg-3 col-md-6 mb-4"><article class="service-card"><div class="service-number">01</div><h3 class="h4">Websites</h3><p class="mb-0">Fast, mobile-friendly websites built from scratch without a mandatory page-builder subscription. Example: nordverify.com was built from scratch without a page builder.</p></article></div>
+        <div class="col-lg-3 col-md-6 mb-4"><article class="service-card"><div class="service-number">02</div><h3 class="h4">Website fixes</h3><p class="mb-0">I find and repair broken forms, slow pages, dead links and layouts that fail on phones.</p></article></div>
+        <div class="col-lg-3 col-md-6 mb-4"><article class="service-card"><div class="service-number">03</div><h3 class="h4">Automation</h3><p class="mb-0">n8n workflows and small systems replace work you currently repeat by hand each week.</p></article></div>
+        <div class="col-lg-3 col-md-6 mb-4"><article class="service-card"><div class="service-number">04</div><h3 class="h4">Data</h3><p class="mb-0">I turn PDFs, exports, spreadsheets and folders into files you can search, check and use.</p></article></div>
+      </div>
+    </div>
+  </section>
 
-  <h2>How it goes</h2>
-  <ol class="steps">
-    <li>You send what you have, however messy — a folder, a zip, a list of links, a mailbox export.</li>
-    <li>I tell you the fixed price and what the finished file will contain. Same day.</li>
-    <li>You get the file, plus the counts and the list of anything missing.</li>
-    <li>One round of changes is included. If it is not what you asked for, you do not pay.</li>
-  </ol>
+  <section class="page-section" id="portfolio">
+    <div class="container px-4 px-lg-5 mb-5">
+      <div class="eyebrow mb-3">Two real examples</div>
+      <h2 class="section-heading">These are the two pieces of work available to inspect</h2>
+      <p class="section-intro mb-0">No placeholder projects or invented customers. Each example says what was checked and what was not.</p>
+    </div>
+    <div class="container px-4 px-lg-5"><div class="row g-3">
+      <div class="col-lg-6"><a class="project-card audit" href="n8n-audit/example-report.html"><div class="project-inner"><div class="project-kicker">n8n workflow audit</div><h3>A green run can still produce the wrong result</h3><p>See the finding, its evidence and the boundary of the test in one report.</p></div></a></div>
+      <div class="col-lg-6"><a class="project-card documents" href="case-study.html"><div class="project-inner"><div class="project-kicker">Document collection</div><h3>309 scattered documents collected into one checked file</h3><p>See how duplicates, sources and missing material were handled.</p></div></a></div>
+    </div></div>
+  </section>
 
-  <h2>Proof, not adjectives</h2>
-  <p>
-    The last one of these was 309 documents scattered across email threads,
-    collected into one ordered file, deduplicated, and word-count verified
-    against the sources.
-    <a href="case-study.html">Read exactly how it was done and how it was checked →</a>
-  </p>
+  <aside class="contact-strip"><div class="container px-4 px-lg-5 d-flex flex-wrap justify-content-between gap-3"><span>Have a specific problem in mind?</span><a href="#contact">Get in touch</a></div></aside>
 
-  <h2>What I will not take on</h2>
-  <p>
-    Payment integrations, security work, and anything involving personal or
-    medical records. Not because they are hard — because a mistake in them is
-    invisible, and I only sell work where you can see for yourself whether it
-    worked.
-  </p>
+  <section class="page-section" id="contact">
+    <div class="container px-4 px-lg-5"><div class="row justify-content-center"><div class="col-lg-8 text-center">
+      <div class="eyebrow mb-3">Contact</div><h2 class="section-heading">Send the problem, a link or the relevant files</h2>
+      <p class="section-intro mx-auto mb-4">I will reply the same day with any questions and tell you what the next step would cost. Email is the contact method; there is no form account or third-party submission service behind this page.</p>
+      <a class="email-link" href="mailto:merved@nordverify.com">merved@nordverify.com</a>
+    </div></div></div>
+  </section>
 
-  <footer>
-    <p id="contact">
-      Malthe Merved · Denmark · European timezone, EU invoicing, same-day replies.<br>
-      <a href="mailto:merved@nordverify.com">merved@nordverify.com</a>
-    </p>
-    <p>No trackers, no cookies, no third-party scripts on this page.</p>
-  </footer>
+  <footer class="site-footer py-5"><div class="container px-4 px-lg-5"><div class="footer-row d-flex justify-content-between align-items-center gap-4">
+    <div class="d-flex align-items-center gap-3"><img class="footer-mark" src="assets/brand/mark_transparent_512.png" alt="Nordverify mark"><div><strong class="text-white">Nordverify v/Malthe Merved</strong><br>Denmark</div></div>
+    <a href="mailto:merved@nordverify.com">merved@nordverify.com</a>
+  </div></div></footer>
 
-</main>
+  <script src="js/scripts.js"></script>
 </body>
 </html>
