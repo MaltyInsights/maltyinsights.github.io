@@ -19,7 +19,17 @@
 
   var CHECK_CONFIG = {
     devEndpoint: "http://127.0.0.1:8791/check",
-    prodEndpoint: "", // <- paste the deployed Worker URL here, and only here
+    // ------------------------------------------------------------------
+    // THE ONE LINE. Paste the deployed Worker URL between the quotes below,
+    // save, and the check on this page becomes automatic for everyone. It
+    // looks like:
+    //     https://nordverify-check.<your-subdomain>.workers.dev
+    // Nothing else on this site has to change, and no key goes here: the
+    // relay has none, needs none, and refuses any origin but nordverify.com.
+    // Until it is filled in, the page says plainly that the check is not
+    // switched on rather than pretending to have checked anything.
+    // ------------------------------------------------------------------
+    prodEndpoint: "https://nordverify-check.merved.workers.dev",
   };
 
   var CLIENT_TIMEOUT_MS = 12000; // a little above the relay's own 10s budget
@@ -91,44 +101,25 @@
     el.textContent = text;
   }
 
-  /* THE HUMAN IN THE LOOP, AND WHY IT IS NOT A PLACEHOLDER.
+  /* WHEN THE RELAY CANNOT ANSWER.
 
-     Until the relay is deployed there is no endpoint, and the honest thing to
-     show a visitor is not "No check service is configured on this page yet."
-     That sentence tells a plumber that this business ships broken software.
-     What is actually true is smaller and better: the check runs by hand right
-     now. So the page says that, and hands them the one action that works,
-     which is sending the address to a person who will run it.
-
-     Nothing here pretends a check happened. No result is invented, no receipt
-     is drawn, and the mail is composed in their own mail program with their
-     own address on it, so they can see exactly what they are sending. */
-  function offerToCheckItByHand(url) {
-    var panel = document.getElementById("manual-check");
-    var link = document.getElementById("manual-check-link");
-    if (!panel || !link) {
-      setStatus("Send " + url + " to merved@nordverify.com and I will check it myself.");
-      return;
-    }
-    link.href = "mailto:merved@nordverify.com" +
-      "?subject=" + encodeURIComponent("Please check " + url) +
-      "&body=" + encodeURIComponent(
-        "Please run the site check on " + url + " and send me the receipt.\n\n" +
-        "(Sent from the free check on nordverify.com.)");
+     There is no mail path here any more: the check runs on the page, on every
+     device, or it says plainly that it did not run. What must never happen is
+     the middle case, where a failure to reach the relay is drawn as a clean
+     receipt. Nothing is found and nothing is ruled out when nothing was
+     checked, and the line below says exactly that. */
+  function cannotRunRightNow(why) {
     document.getElementById("receipt").hidden = true;
-    setStatus("");
-    panel.hidden = false;
-    link.focus();
+    setStatus(why);
   }
 
   function runCheck(url) {
     var endpoint = endpointUrl();
     if (!endpoint) {
-      offerToCheckItByHand(url);
+      cannotRunRightNow("The check is not switched on yet. Nothing was " +
+        "checked, and nothing about your site is being claimed either way.");
       return;
     }
-    var manual = document.getElementById("manual-check");
-    if (manual) manual.hidden = true;
     setStatus("Checking " + url + " …");
     document.getElementById("receipt").hidden = true;
 
@@ -153,7 +144,9 @@
          one that was never deployed: no receipt exists, and telling a visitor
          "the check could not be run" leaves them holding nothing. Both paths
          end in the same offer, because the offer is the thing that works. */
-      offerToCheckItByHand(url);
+      cannotRunRightNow("The check could not be completed just now. Nothing " +
+        "was found and nothing was ruled out, because nothing was checked. " +
+        "Try again in a moment.");
     });
   }
 
