@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Demo: mail sorter | Nordverify</title>
+<meta name="description" content="Ten fictional emails, sorted into folders in front of you. Eight go straight to a folder; two are flagged for a person because a folder was not obvious.">
+<link rel="icon" type="image/png" sizes="256x256" href="assets/brand/favicon_256.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/favicon_64.png">
+<link href="css/styles.css" rel="stylesheet">
+<link href="css/nordverify.css" rel="stylesheet">
+<style>
+  /* Scoped to this page. Nothing here loads from anywhere but this file. */
+  .demo-badge {
+    display: inline-block; margin-bottom: 1.1rem; padding: .3rem .7rem;
+    border: 1px solid var(--nv-slate); color: #526a80; font-size: .78rem;
+    font-weight: 650; letter-spacing: .04em; border-radius: 3px;
+  }
+  .demo-board { display: grid; grid-template-columns: 260px 1fr; gap: 1.75rem; align-items: start; }
+  .inbox-col h3, .folder-col h3 {
+    font: 700 .72rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: .12em; text-transform: uppercase; color: #526a80; margin: 0 0 .8rem;
+  }
+  .mail-card {
+    background: #fff; border: 1px solid #cad4dc; border-left: 3px solid var(--nv-slate);
+    padding: .7rem .8rem; margin-bottom: .6rem; font-size: .86rem;
+    transition: opacity .25s ease, transform .25s ease;
+  }
+  .mail-card .m-from { font-weight: 700; color: var(--nv-navy); display: block; }
+  .mail-card .m-subject { color: #526a80; }
+  .mail-card.landed { animation: land .5s ease; }
+  @keyframes land { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  .folders-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .folder-col {
+    background: #f2f5f7; border-top: 3px solid var(--nv-green); padding: .95rem 1rem; min-height: 140px;
+  }
+  .folder-col.unsure { border-top-color: #b3401f; }
+  .folder-col .empty { color: #9db0bd; font-size: .82rem; }
+  #run-sort { margin-top: 1.25rem; }
+  #sort-status { margin-top: 1.1rem; font-size: 1rem; color: var(--nv-navy); min-height: 1.4em; }
+  #sort-status .unsure-line { color: #8b4a24; font-weight: 650; }
+  @media (max-width: 900px) {
+    .demo-board { grid-template-columns: 1fr; }
+    .folders-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body id="page-top">
+<nav class="navbar navbar-expand-lg fixed-top py-3" id="mainNav"><div class="container px-4 px-lg-5"><a class="navbar-brand" href="index.html"><img src="assets/brand/mark_transparent_512.png" alt=""><span>Nordverify</span></a><a class="nav-link" href="index.html#services">Back to services</a></div></nav>
+
+<header class="masthead">
+  <img class="hero-mark" src="assets/brand/mark_transparent_512.png" alt="" aria-hidden="true">
+  <div class="container px-4 px-lg-5 h-100 d-flex align-items-center">
+    <div class="hero-copy">
+      <div class="eyebrow mb-4">Demo</div>
+      <h1 class="text-white mb-4">A mail sorter, running on ten made-up emails</h1>
+      <p class="lead mb-0">I press run and each message moves into a folder. Eight are clear enough to file on their own; two are not, and I show that instead of guessing.</p>
+    </div>
+  </div>
+</header>
+
+<section class="page-section" id="demo">
+  <div class="container px-4 px-lg-5">
+    <span class="demo-badge">Demo - sample data</span>
+    <p class="section-intro mb-4">Ten fictional emails, invented for this page. None of it ran for a client, and nothing here is connected to a real inbox.</p>
+
+    <div class="demo-board">
+      <div class="inbox-col">
+        <h3>Inbox</h3>
+        <div id="inbox-list"></div>
+        <button class="btn btn-primary" id="run-sort" type="button">Run the sorter</button>
+      </div>
+      <div class="folder-col-wrap">
+        <div class="folders-grid" id="folders-grid">
+          <div class="folder-col" data-folder="invoices"><h3>Invoices</h3><div class="folder-items"><p class="empty">Empty until I run it.</p></div></div>
+          <div class="folder-col" data-folder="support"><h3>Support</h3><div class="folder-items"><p class="empty">Empty until I run it.</p></div></div>
+          <div class="folder-col" data-folder="newsletters"><h3>Newsletters</h3><div class="folder-items"><p class="empty">Empty until I run it.</p></div></div>
+          <div class="folder-col unsure" data-folder="unsure"><h3>Needs a person</h3><div class="folder-items"><p class="empty">Empty until I run it.</p></div></div>
+        </div>
+        <p id="sort-status" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<aside class="contact-strip"><div class="container px-4 px-lg-5 d-flex flex-wrap justify-content-between gap-3"><span>This is what the automation service looks like from the inside.</span><a href="index.html#services">Back to services</a></div></aside>
+
+<footer class="site-footer py-5"><div class="container px-4 px-lg-5"><div class="footer-row d-flex justify-content-between align-items-center gap-4">
+  <div class="d-flex align-items-center gap-3"><img class="footer-mark" src="assets/brand/mark_transparent_512.png" alt="Nordverify mark"><div><strong class="text-white">Nordverify v/Malthe Merved</strong><br>Denmark</div></div>
+  <div class="d-flex align-items-center gap-4"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:merved@nordverify.com">merved@nordverify.com</a></div>
+</div></div></footer>
+
+<script src="js/scripts.js"></script>
+<script src="js/demo-mail-sorter.js"></script>
+</body>
+</html>

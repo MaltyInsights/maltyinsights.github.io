@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Demo: email to calendar entry | Nordverify</title>
+<meta name="description" content="A fictional email asking to meet Thursday at 10 becomes a calendar entry, with the extracted details highlighted against the original text.">
+<link rel="icon" type="image/png" sizes="256x256" href="assets/brand/favicon_256.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/favicon_64.png">
+<link href="css/styles.css" rel="stylesheet">
+<link href="css/nordverify.css" rel="stylesheet">
+<style>
+  .demo-badge {
+    display: inline-block; margin-bottom: 1.1rem; padding: .3rem .7rem;
+    border: 1px solid var(--nv-slate); color: #526a80; font-size: .78rem;
+    font-weight: 650; letter-spacing: .04em; border-radius: 3px;
+  }
+  .demo-board { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; align-items: start; }
+  .mail-panel, .entry-panel {
+    background: #fff; border: 1px solid #cad4dc; padding: 1.4rem 1.5rem;
+  }
+  .mail-panel h3, .entry-panel h3 {
+    font: 700 .72rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: .12em; text-transform: uppercase; color: #526a80; margin: 0 0 .9rem;
+  }
+  .mail-meta { font-size: .84rem; color: #526a80; margin-bottom: .8rem; }
+  .mail-meta strong { color: var(--nv-navy); }
+  .mail-body { font-size: .96rem; line-height: 1.65; color: #2f4658; }
+  .hl { padding: .05rem .2rem; border-radius: 2px; transition: background .3s ease, box-shadow .3s ease; }
+  .hl-date { background: transparent; }
+  .hl-time { background: transparent; }
+  .hl-who { background: transparent; }
+  .hl.on.hl-date { background: #d6f3e8; box-shadow: 0 0 0 1px #39d39b; }
+  .hl.on.hl-time { background: #fde3d0; box-shadow: 0 0 0 1px #d97a3f; }
+  .hl.on.hl-who { background: #e1e9f5; box-shadow: 0 0 0 1px #5a7bc4; }
+  .entry-card { border-top: 3px solid var(--nv-green); padding-top: 1rem; opacity: .35; transition: opacity .35s ease; }
+  .entry-card.ready { opacity: 1; }
+  .entry-row { display: flex; gap: .6rem; margin-bottom: .7rem; font-size: .94rem; }
+  .entry-row .k { width: 70px; flex: none; color: #526a80; font-weight: 650; }
+  .entry-row .v { color: var(--nv-navy); }
+  .entry-row .v.hl-date { color: #1f795b; font-weight: 650; }
+  .entry-row .v.hl-time { color: #8b4a24; font-weight: 650; }
+  .entry-row .v.hl-who { color: #2a4a8f; font-weight: 650; }
+  #run-extract { margin-top: 1.25rem; }
+  #extract-status { margin-top: .9rem; font-size: .92rem; color: #526a80; min-height: 1.4em; }
+  @media (max-width: 900px) { .demo-board { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body id="page-top">
+<nav class="navbar navbar-expand-lg fixed-top py-3" id="mainNav"><div class="container px-4 px-lg-5"><a class="navbar-brand" href="index.html"><img src="assets/brand/mark_transparent_512.png" alt=""><span>Nordverify</span></a><a class="nav-link" href="index.html#services">Back to services</a></div></nav>
+
+<header class="masthead">
+  <img class="hero-mark" src="assets/brand/mark_transparent_512.png" alt="" aria-hidden="true">
+  <div class="container px-4 px-lg-5 h-100 d-flex align-items-center">
+    <div class="hero-copy">
+      <div class="eyebrow mb-4">Demo</div>
+      <h1 class="text-white mb-4">A meeting request, turned into a calendar entry</h1>
+      <p class="lead mb-0">I read the line asking to meet, pull out the day, the time and who is asking, and build the entry from those three things.</p>
+    </div>
+  </div>
+</header>
+
+<section class="page-section" id="demo">
+  <div class="container px-4 px-lg-5">
+    <span class="demo-badge">Demo - sample data</span>
+    <p class="section-intro mb-4">One fictional email, invented for this page. Nothing here reads a real inbox or writes to a real calendar.</p>
+
+    <div class="demo-board">
+      <div class="mail-panel">
+        <h3>Email</h3>
+        <p class="mail-meta"><strong>From:</strong> Sofie Lang<br><strong>Subject:</strong> Quick sync?</p>
+        <p class="mail-body" id="mail-body">Hi, <span class="hl hl-date" id="span-date">are you free Thursday</span> <span class="hl hl-time" id="span-time">at 10</span>? I'll bring the numbers from last week.<br>Best, <span class="hl hl-who" id="span-who">Sofie Lang</span></p>
+        <button class="btn btn-primary" id="run-extract" type="button">Extract details</button>
+        <p id="extract-status" aria-live="polite"></p>
+      </div>
+      <div class="entry-panel">
+        <h3>Calendar entry</h3>
+        <div class="entry-card" id="entry-card">
+          <div class="entry-row"><span class="k">Title</span><span class="v" id="v-title"></span></div>
+          <div class="entry-row"><span class="k">Date</span><span class="v hl-date" id="v-date"></span></div>
+          <div class="entry-row"><span class="k">Time</span><span class="v hl-time" id="v-time"></span></div>
+          <div class="entry-row"><span class="k">With</span><span class="v hl-who" id="v-who"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<aside class="contact-strip"><div class="container px-4 px-lg-5 d-flex flex-wrap justify-content-between gap-3"><span>This is what the automation service looks like from the inside.</span><a href="index.html#services">Back to services</a></div></aside>
+
+<footer class="site-footer py-5"><div class="container px-4 px-lg-5"><div class="footer-row d-flex justify-content-between align-items-center gap-4">
+  <div class="d-flex align-items-center gap-3"><img class="footer-mark" src="assets/brand/mark_transparent_512.png" alt="Nordverify mark"><div><strong class="text-white">Nordverify v/Malthe Merved</strong><br>Denmark</div></div>
+  <div class="d-flex align-items-center gap-4"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:merved@nordverify.com">merved@nordverify.com</a></div>
+</div></div></footer>
+
+<script src="js/scripts.js"></script>
+<script src="js/demo-calendar.js"></script>
+</body>
+</html>

@@ -53,3 +53,802 @@ header.masthead .lead { max-width: 690px; color: rgba(255, 255, 255, .74); font-
 .proof-panel { background: #f2f5f7; }.tiles { display: grid; grid-template-columns: repeat(auto-fit,minmax(170px,1fr)); gap: 1rem; margin: 2rem 0; }.tile { background: #fff; padding: 1.6rem; border-top: 3px solid var(--nv-green); }.tile .n { font-size: 2.2rem; font-weight: 800; letter-spacing: -.04em; }.tile .k { color: #526a80; font-size: .85rem; }.scroll { overflow-x: auto; } table { width: 100%; border-collapse: collapse; } th, td { padding: .65rem; border-bottom: 1px solid #cad4dc; text-align: right; } th:first-child, td:first-child { text-align: left; }.verdict { color: #526a80; margin-top: 1rem; }.ok { color: #1f795b; }.warn { color: #8b4a24; }
 @media (max-width: 991.98px) { header.masthead { min-height: 520px; }.hero-mark { width: 70vw; right: -25%; }.page-section { padding: 4rem 0; } }
 @media (max-width: 575.98px) { header.masthead { min-height: 460px; padding-top: 7.5rem; }.hero-mark { width: 95vw; right: -45%; }.project-card { min-height: 270px; }.site-footer .footer-row { align-items: flex-start !important; flex-direction: column; } }
+
+/* ==========================================================================
+   19 AUGUST 2026: CALM SURFACES.
+
+   The direction was muted pastel planes, air, and the two brand colours used
+   sparingly. Four things in the rules above worked against it and are
+   overridden here rather than edited in place, so the diff says what changed:
+
+   1. #about was a full-width panel of #39d39b. A whole screen of the accent
+      colour is not the accent used sparingly; it is the accent used as the
+      background. It becomes the palest green surface in the palette, and the
+      green itself survives as a 3px rule down its left edge.
+   2. header.masthead::before painted a radial-gradient glow over the hero.
+      A flat navy plane needs no glow to be a plane.
+   3. .eyebrow::before injected an em-dash through CSS content. The anti-slop
+      linter reads HTML and cannot see it, so it sat under every section
+      heading on the site while the scan reported zero findings. It is a rule
+      now, drawn rather than typed.
+   4. The sections were 5.25rem apart, which is close for a page whose whole
+      argument is that it is unhurried.
+   ========================================================================== */
+:root {
+  --nv-mist: #f3f6f8;      /* cool pale, for alternating sections */
+  --nv-sand: #f7f5f1;      /* warm pale, for the quiet strip */
+  --nv-sage: #eef5f1;      /* palest green, where the accent panel was */
+  --nv-line: #dde5ea;      /* hairlines, never a shadow */
+  --nv-ink-soft: #52697d;  /* body text that is not a heading */
+}
+
+.page-section { padding: 7rem 0; }
+.section-heading { margin-bottom: 1.25rem; }
+.section-intro { line-height: 1.7; }
+
+header.masthead { padding: 11rem 0 7rem; }
+header.masthead::before { content: none; }
+.hero-mark { opacity: .13; }
+header.masthead .lead { color: rgba(255, 255, 255, .78); }
+
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 1.6rem;
+  height: 2px;
+  margin-right: .7rem;
+  vertical-align: .22em;
+  background: currentColor;
+  opacity: .5;
+}
+
+#about {
+  background: var(--nv-sage);
+  border-left: 3px solid var(--nv-green);
+  padding: 4.5rem 0;
+}
+#about p { color: #24483a; }
+#about .eyebrow { color: #2c7f60; }
+
+#services { background: var(--nv-white); }
+#offers { background: var(--nv-mist); }
+#portfolio { background: var(--nv-white); }
+#demos { background: var(--nv-mist); }
+#contact { background: var(--nv-white); }
+
+/* The priced offers are not services and no longer borrow their class. A
+   white card on the mist plane, one hairline, no shadow, and the accent
+   colour only on the thing you click. */
+.offer-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--nv-white);
+  border: 1px solid var(--nv-line);
+  border-top: 3px solid var(--nv-navy);
+  padding: 2rem 1.75rem;
+}
+.offer-price {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--nv-navy);
+  line-height: 1;
+}
+.offer-card h3 { margin-top: .85rem; font-size: 1.25rem; }
+.offer-card p {
+  color: var(--nv-ink-soft);
+  font-size: .97rem;
+  line-height: 1.65;
+  margin-top: .75rem;
+}
+.offer-card .btn { align-self: flex-start; margin-top: auto; }
+.offer-card:hover { border-top-color: var(--nv-green); }
+
+.service-card p { color: var(--nv-ink-soft); }
+
+/* Two strips in a row, both navy, would read as one long band. The second is
+   the quiet one: warm paper, navy ink, and the link carries the weight. */
+.contact-strip { padding: 2.75rem 0; }
+.quiet-strip { background: var(--nv-sand); color: var(--nv-navy); }
+.quiet-strip a { color: #1f795b; }
+
+.project-card { min-height: 340px; }
+.site-footer a { text-underline-offset: .25rem; }
+
+/* THE FULL-HEIGHT HERO BELONGS TO THE FRONT PAGE ALONE. styles.css gives
+   .masthead height:100vh, and every subpage inherited it: measured 19 August,
+   privacy, terms, the case study and all three demos opened with 1000px of
+   empty navy before a reader saw a word. A hero that fills the screen is a
+   choice the front page earns with something to say in it; on a page that is
+   one paragraph and a form it is just a wall. */
+header.masthead { height: auto; min-height: 0; padding: 7rem 0 4.5rem; }
+header.masthead .container { height: auto; }
+header.masthead--full { height: 100vh; min-height: 600px; padding: 11rem 0 7rem; }
+header.masthead--full .container { height: 100%; }
+
+/* ==========================================================================
+   19 AUGUST, LATER: THE TWO SECTIONS THAT CARRY RATHER THAN FILL.
+
+   The surface order is what breaks the run of dark cards. Before this there
+   were two blocks of navy panels with nothing between them, and the lower
+   half of the page read as one long dark stretch. #limits now sits between
+   them: white, text only, and it is the most honest section on the site.
+   ========================================================================== */
+#services { background: var(--nv-white); }
+#how      { background: var(--nv-mist); }
+#offers   { background: var(--nv-white); }
+#portfolio{ background: var(--nv-mist); }
+#limits   { background: var(--nv-white); }
+#demos    { background: var(--nv-mist); }
+#contact  { background: var(--nv-white); }
+
+.step-card { height: 100%; padding: 1.5rem 0 0; border-top: 2px solid var(--nv-navy); }
+.step-n {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1.5rem; font-weight: 700; line-height: 1;
+  color: var(--nv-green);
+}
+.step-card h3 { margin-top: .7rem; font-size: 1.2rem; }
+.step-card p { color: var(--nv-ink-soft); font-size: .99rem; line-height: 1.7; margin-top: .65rem; }
+
+.limits-list { list-style: none; padding: 0; margin: 0 0 1.75rem; max-width: 760px; }
+.limits-list li {
+  padding: 1.1rem 0 1.1rem 1.5rem;
+  border-top: 1px solid var(--nv-line);
+  border-left: 3px solid transparent;
+  color: var(--nv-ink-soft);
+  line-height: 1.7;
+}
+.limits-list li:last-child { border-bottom: 1px solid var(--nv-line); }
+.limits-list li strong { color: var(--nv-navy); }
+
+/* Four cards where there were three: the price stays on one line at every
+   width rather than wrapping mid-number. */
+.offer-card { padding: 1.75rem 1.4rem; }
+.offer-price { font-size: 1.4rem; white-space: nowrap; }
+#contact .email-link { display: inline-block; }
+
+/* ==========================================================================
+   19 AUGUST, THE REWRITE: RHYTHM INSTEAD OF STRIPES.
+
+   What was wrong. Every section was a full-width coloured block, and inside
+   every block sat the same thing: eyebrow, heading, intro, then a row of
+   equal cards. White, mist, white, mist. It is the shape a generator reaches
+   for, because it is the shape that needs no decisions: a grid always fits.
+   A page a person laid out has sections of different widths, text that runs
+   beside a picture, and long stretches of nothing.
+
+   So: white is the default and almost the only surface. Two tinted bands are
+   left, and they are far apart. The measure varies on purpose, from 34rem of
+   running text to a photo that leaves the page at the edge. Cards are gone
+   except where things are genuinely being compared, which is the prices.
+   ========================================================================== */
+
+.band { padding: 8.5rem 0; }
+.band + .band { padding-top: 0; }
+.band--tint { background: var(--nv-mist); padding: 8.5rem 0; }
+.band--tint + .band { padding-top: 8.5rem; }
+.band--rule { border-top: 1px solid var(--nv-line); padding-top: 7rem; }
+.band--close { padding-bottom: 6rem; }
+
+.measure, .split, .offset, .pitch, .stair, .joblist, .doorway, .demo-lead {
+  max-width: 1180px; margin-left: auto; margin-right: auto;
+  padding-left: 1.5rem; padding-right: 1.5rem;
+}
+.measure { max-width: 46rem; }
+.measure--indent { margin-left: max(1.5rem, min(12vw, 14rem)); margin-right: auto; }
+
+.kicker {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+  color: #2c7f60; margin: 0 0 1.1rem;
+}
+.band h2 {
+  font-size: clamp(1.9rem, 3.4vw, 2.85rem); line-height: 1.08;
+  letter-spacing: -.033em; margin: 0 0 1.4rem; max-width: 22ch;
+}
+.band h3 { font-size: 1.22rem; letter-spacing: -.018em; margin: 0 0 .55rem; }
+.band p { color: var(--nv-ink-soft); line-height: 1.75; }
+.lede { font-size: 1.06rem; max-width: 40rem; }
+
+/* ---- the hero. Type, not a panel with a logo ghost in it. --------------- */
+.hero {
+  background: var(--nv-navy); color: #fff;
+  padding: clamp(7rem, 16vh, 11rem) 0 clamp(5rem, 11vh, 8rem);
+}
+.hero-inner { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem; }
+.hero-kicker {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--nv-green); margin: 0 0 2.2rem;
+}
+.hero h1 {
+  font-size: clamp(2.4rem, 6.4vw, 4.6rem); line-height: 1.02;
+  letter-spacing: -.042em; margin: 0 0 1.6rem; max-width: 16ch; color: #fff;
+}
+.hero-proof { color: #fff; font-size: clamp(1.05rem, 1.7vw, 1.2rem); margin: 0 0 .9rem; max-width: 38rem; }
+.hero-sub { color: rgba(255,255,255,.66); font-size: 1.02rem; line-height: 1.7; margin: 0 0 2.6rem; max-width: 34rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: center; }
+
+.btn-solid {
+  display: inline-block; background: var(--nv-green); color: var(--nv-navy);
+  font-weight: 700; letter-spacing: -.01em; padding: .85rem 1.6rem;
+  text-decoration: none; border: 1px solid var(--nv-green);
+}
+.btn-solid:hover { background: #2ebe8b; border-color: #2ebe8b; color: var(--nv-navy); }
+.btn-solid--sm { padding: .6rem 1.15rem; font-size: .95rem; }
+.btn-plain {
+  display: inline-block; color: inherit; font-weight: 650; text-decoration: none;
+  border-bottom: 2px solid var(--nv-green); padding-bottom: .15rem;
+}
+.hero .btn-plain { color: #fff; }
+.btn-plain:hover { color: inherit; border-bottom-color: var(--nv-navy); }
+
+/* ---- text beside a picture, and the picture leaves the page ------------- */
+.split { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center; }
+@media (min-width: 900px) {
+  .split { grid-template-columns: minmax(0, 27rem) minmax(0, 1fr); gap: 4.5rem; }
+  .band--reverse .split { grid-template-columns: minmax(0, 1fr) minmax(0, 30rem); }
+  .split-media--bleed { margin-right: calc((100vw - min(100vw, 1180px)) / -2 - 1.5rem); }
+  .band--reverse .split-media--bleed { margin-right: 0; margin-left: calc((100vw - min(100vw, 1180px)) / -2 - 1.5rem); }
+}
+.split-media { margin: 0; }
+.split-media img { display: block; width: 100%; height: auto; }
+.split-text h2 { max-width: 18ch; }
+
+/* ---- a sticky heading with the list running past it -------------------- */
+.offset { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+@media (min-width: 900px) {
+  .offset { grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); gap: 5rem; }
+  .offset-head { position: sticky; top: 6.5rem; align-self: start; }
+}
+.entry { padding: 2.2rem 0; border-top: 1px solid var(--nv-line); max-width: 42rem; }
+.entry:first-child { border-top: 0; padding-top: 0; }
+.entry p { margin: 0; }
+
+/* ---- the staircase ------------------------------------------------------ */
+.stair { list-style: none; margin: 3.5rem auto 0; padding-left: 1.5rem; padding-right: 1.5rem; }
+.stair li { display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; max-width: 40rem; padding: 2rem 0; }
+.stair li + li { border-top: 1px solid var(--nv-line); }
+@media (min-width: 820px) {
+  .stair li:nth-child(2) { margin-left: 6rem; }
+  .stair li:nth-child(3) { margin-left: 12rem; }
+  .stair li + li { border-top: 0; }
+}
+.stair-n {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1.6rem; font-weight: 700; color: var(--nv-green); line-height: 1;
+}
+.stair p { margin: 0; }
+
+/* ---- prices. Cards here, because things being compared want to line up. -- */
+.doorway {
+  display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 3.5rem;
+  padding-top: 2.5rem; padding-bottom: 2.5rem;
+  border-top: 3px solid var(--nv-navy); border-bottom: 1px solid var(--nv-line);
+}
+@media (min-width: 760px) { .doorway { grid-template-columns: 9rem 1fr; gap: 3rem; } }
+.doorway-price {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 2.4rem; font-weight: 700; letter-spacing: -.04em; color: var(--nv-navy); line-height: 1;
+}
+.doorway-text { max-width: 44rem; }
+.doorway-text p { margin: 0 0 1.4rem; }
+
+.joblist { display: grid; grid-template-columns: 1fr; gap: 0; }
+@media (min-width: 760px) { .joblist { grid-template-columns: 1fr 1fr; column-gap: 4rem; } }
+.job { padding: 2.4rem 0; border-bottom: 1px solid var(--nv-line); }
+.job p { margin: 0 0 1.2rem; }
+.job-price {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 700; color: var(--nv-navy); font-size: 1.15rem; margin: 0 0 .5rem !important;
+  letter-spacing: -.02em;
+}
+
+/* ---- lists of work and demos ------------------------------------------- */
+.worklist, .demo-rest { list-style: none; padding: 0; margin: 2rem 0 0; }
+.worklist li a, .demo-rest li a {
+  display: block; padding: 1.3rem 0; border-top: 1px solid var(--nv-line);
+  text-decoration: none; color: inherit;
+}
+.worklist li:last-child a, .demo-rest li:last-child a { border-bottom: 1px solid var(--nv-line); }
+.worklist-kicker, .spotlight-kicker {
+  display: block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: #2c7f60;
+  margin-bottom: .4rem;
+}
+.worklist-title { display: block; font-weight: 650; font-size: 1.08rem; letter-spacing: -.015em; }
+.worklist-note { display: block; color: var(--nv-ink-soft); font-size: .95rem; margin-top: .25rem; line-height: 1.6; }
+.worklist li a:hover .worklist-title { border-bottom: 2px solid var(--nv-green); }
+
+.demo-lead { display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin-top: 3.5rem; }
+@media (min-width: 900px) { .demo-lead { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 4rem; } }
+.spotlight {
+  display: block; text-decoration: none; color: #fff; background: var(--nv-navy);
+  padding: clamp(1.9rem, 3vw, 2.75rem); min-height: 17rem;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.spotlight:hover { color: #fff; }
+.spotlight-title { display: block; font-size: clamp(1.35rem, 2.2vw, 1.8rem); line-height: 1.15; letter-spacing: -.025em; }
+.spotlight-note { display: block; color: rgba(255,255,255,.68); margin-top: .7rem; line-height: 1.6; font-size: .97rem; }
+.demo-rest { margin-top: 0; }
+
+/* ---- the turn-downs, and the close -------------------------------------- */
+.turndowns { margin: 2rem 0 2rem; }
+.turndowns dt { font-weight: 650; color: var(--nv-navy); margin-top: 1.5rem; }
+.turndowns dt:first-child { margin-top: 0; }
+.turndowns dd { margin: .35rem 0 0; color: var(--nv-ink-soft); line-height: 1.75; }
+.mailto-big { margin: 2rem 0 2rem; }
+.mailto-big a {
+  font-size: clamp(1.25rem, 2.6vw, 1.9rem); font-weight: 700; letter-spacing: -.025em;
+  color: var(--nv-navy); text-decoration: none; border-bottom: 3px solid var(--nv-green);
+  padding-bottom: .2rem;
+}
+.pitch { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: end; }
+@media (min-width: 900px) { .pitch { grid-template-columns: minmax(0, 1fr) auto; gap: 4rem; } }
+.pitch-text p { max-width: 42rem; }
+.fineprint { color: var(--nv-ink-soft); font-size: .9rem; margin: 1rem 0 0; }
+
+/* ==========================================================================
+   19 AUGUST, THE QUIET PASS. Ten things Malthe named, and the theme under
+   all of them: the page had variety where it needed calm.
+
+   Variety of WIDTH and COLOUR reads as noise. Variety of CONTENT does not.
+   So the widths collapse to one container, the alignment collapses to one
+   edge, the greens collapse to one green, and the surfaces collapse to
+   white with a single muted pause. What is left to vary is what is actually
+   on the page: running text, a list, a photograph, a price.
+   ========================================================================== */
+
+/* ---- ONE CONTAINER, ONE EDGE ------------------------------------------- */
+.wrap, .split, .stair, .joblist, .doorway, .hero-inner {
+  max-width: 1000px; margin-left: auto; margin-right: auto;
+  padding-left: 2rem; padding-right: 2rem;
+}
+.measure, .measure--indent { max-width: 1000px; margin-left: auto; margin-right: auto; }
+.wrap > *, .stair, .joblist, .doorway { text-align: left; }
+.band h2 { max-width: 24ch; }
+.lede { max-width: 46rem; }
+.band p { max-width: 46rem; }
+
+/* ---- ONE SURFACE. White, and one muted pause in the whole page. --------- */
+.band, .band--split, .band--reverse, .band--rule, .band--close,
+#about, #services, #how, #offers, #portfolio, #limits, #demos, #contact,
+#freecheck { background: var(--nv-white); }
+#about { border-left: 0; padding: 7rem 0; }
+.band--tint { background: #f7f8fa; }         /* the one pause: How it works */
+
+/* ---- ONE GREEN. #39D39B, and only where something is interactive. ------- */
+.kicker, .worklist-kicker, .spotlight-kicker { color: #6b7d8d; }
+#about .kicker { color: #6b7d8d; }
+#about p { color: var(--nv-ink-soft); }
+
+/* ---- THE HERO: a staircase of sizes, not a cliff ----------------------- */
+.hero { padding: clamp(6.5rem, 15vh, 10rem) 0 clamp(5rem, 11vh, 7.5rem); }
+.hero h1 { font-size: clamp(2.3rem, 5.6vw, 4.1rem); max-width: 17ch; margin-bottom: 1.8rem; }
+.hero-proof {
+  font-size: clamp(1.25rem, 2.1vw, 1.6rem); line-height: 1.35; font-weight: 500;
+  letter-spacing: -.015em; max-width: 26ch;   /* keeps "not." off a line of its own */
+  margin: 0 0 1.3rem; color: #fff;
+}
+.hero-sub {
+  font-size: clamp(1.02rem, 1.35vw, 1.13rem); line-height: 1.65;
+  color: rgba(255,255,255,.7); max-width: 44ch; margin: 0 0 2.8rem;
+}
+.hero-kicker { margin-bottom: 1.8rem; }
+
+/* ---- the pieces that were floating ------------------------------------- */
+.actionline { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin: 2.2rem 0 0; }
+.actionline .fineprint { margin: 0; }
+.entries { margin-top: 2.75rem; }
+.entry { max-width: none; padding: 2rem 0; }
+.entry p { max-width: 46rem; }
+.worklist--two { display: grid; grid-template-columns: 1fr; gap: 0 3.5rem; }
+@media (min-width: 820px) { .worklist--two { grid-template-columns: 1fr 1fr; } }
+.worklist--two li a { border-top: 1px solid var(--nv-line); }
+.worklist--two li:last-child a { border-bottom: 0; }
+@media (min-width: 820px) {
+  .worklist--two li:nth-last-child(-n+2) a { border-bottom: 1px solid var(--nv-line); }
+}
+.split { align-items: center; }
+@media (min-width: 900px) {
+  .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; }
+  .split-media--bleed { margin-right: 0; margin-left: 0; }
+}
+.stair li:nth-child(2), .stair li:nth-child(3) { margin-left: 0; }
+@media (min-width: 820px) {
+  .stair li + li { border-top: 1px solid var(--nv-line); }
+}
+.stair { margin-top: 3rem; }
+.turndowns { max-width: 46rem; }
+.doorway { margin-top: 3rem; }
+
+/* The one pause has to come after the sweep above, or the id selector in it
+   wins and the page becomes white all the way down, which is a different
+   mistake from the one being fixed. */
+#how.band--tint { background: #f7f8fa; }
+
+/* THE HEADLINE'S OWN ORPHAN. Fixing the subtitle's stranded "not." left the
+   H1 doing exactly the same thing one line up: "Built. Tested. Proven.
+   Fixed" and then "price." alone. The five words are the hero's whole claim
+   and cannot be reworded, so the measure is set to break them in half
+   instead: two lines of two sentences each, which is also how they are
+   said out loud. */
+.hero h1 { max-width: 13ch; }
+
+/* ==========================================================================
+   19 AUGUST, THE FACE. Three things made this page read as generated, and
+   the typeface was the first of them.
+
+   Inter is what a page wears when nobody chose. It is on every dashboard and
+   every template, and a site that sells design cannot look like nobody
+   chose. Headings are Fraunces now: a serif with weight in the wrong places
+   on purpose, self-hosted, SIL OFL, listed in assets/img/LICENSES.md. Body
+   text is Public Sans, which is quiet on purpose, because the character
+   belongs in the headings and nowhere else.
+
+   The second thing was the cold. Navy, then white forever, is a palette with
+   no opinion. The page sits on warm paper now, with a terracotta that answers
+   the green rather than replacing it. The demo proved that reads as human;
+   this is the same move on the page that sells the work.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Fraunces"; font-style: normal; font-weight: 400;
+  font-display: swap; src: url("../assets/fonts/fraunces-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Fraunces"; font-style: normal; font-weight: 600;
+  font-display: swap; src: url("../assets/fonts/fraunces-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "PublicSans"; font-style: normal; font-weight: 400;
+  font-display: swap; src: url("../assets/fonts/publicsans-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "PublicSans"; font-style: normal; font-weight: 600;
+  font-display: swap; src: url("../assets/fonts/publicsans-600.woff2") format("woff2");
+}
+
+:root {
+  --paper:      #faf7f2;   /* warm off-white, the page's ground */
+  --paper-deep: #f2ede4;   /* one step darker, for a band */
+  --ink:        #16242f;   /* warmer than the old navy for running text */
+  --ink-soft:   #5d6b74;
+  --terracotta: #b8542c;
+  --rule:       #e4ddd1;
+}
+
+html, body { background: var(--paper); }
+body {
+  font-family: "PublicSans", ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+  color: var(--ink); font-size: 1.02rem; line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, .navbar-brand span, .hero h1, .band h2, .band h3 {
+  font-family: "Fraunces", Georgia, "Times New Roman", serif;
+  font-weight: 600; letter-spacing: -.015em;
+}
+.band h2 { line-height: 1.1; }
+.band h3 { font-weight: 600; }
+.band p, .lede, .worklist-note { color: var(--ink-soft); }
+
+/* surfaces: paper, one deeper band, and the hero. Nothing else. */
+.band, #about, #services, #how, #offers, #portfolio, #limits, #demos,
+#contact, #freecheck { background: var(--paper); }
+#how.band--tint, .band--tint { background: var(--paper-deep); }
+#mainNav { background: var(--paper); box-shadow: 0 1px 0 var(--rule); }
+.site-footer { background: #16242f; }
+
+/* the accent pair: green for what you press, terracotta for what points */
+.kicker, .worklist-kicker, .spotlight-kicker { color: var(--terracotta); letter-spacing: .16em; }
+.entry, .worklist li a, .worklist--two li a, .job, .doorway, .band--rule,
+.turndowns dt, .stair li + li { border-color: var(--rule) !important; }
+.btn-plain { border-bottom-color: var(--terracotta); }
+.btn-plain:hover { border-bottom-color: var(--ink); }
+.mailto-big a { border-bottom-color: var(--terracotta); }
+.hero-kicker { color: var(--nv-green); }
+.doorway { border-top-color: var(--terracotta); }
+.job-price, .doorway-price { color: var(--ink); }
+
+/* ==========================================================================
+   AND THE THIRD THING: THE CUT.
+
+   Every section was a narrow column shoved against the left edge with forty
+   percent of the screen empty beside it. That is not asymmetry, it is a
+   layout that ran out. Two shapes replace it, and which one a section gets
+   depends on what is in it:
+
+     .column  a genuinely centred measure, equal air both sides, for the
+              sections that are only words
+     .duo     two columns of DIFFERENT width, text against a photograph,
+              using the whole screen, for the sections that have something
+              to show
+
+   The demo's own hero is the model for .duo. It was the part of this site
+   with a face, and it got that face by putting a picture next to a sentence
+   instead of leaving the right half blank.
+   ========================================================================== */
+
+.band--wide { padding: 7.5rem 0; }
+.wide { max-width: 1240px; margin: 0 auto; padding: 0 2rem; }
+
+.column {
+  max-width: 640px; margin-left: auto; margin-right: auto; padding: 0 2rem;
+  text-align: left;
+}
+.column--left { max-width: 1240px; padding: 0 2rem; }
+.column h2, .column p, .column .lede { max-width: none; }
+
+.duo {
+  max-width: 1240px; margin: 0 auto; padding: 0 2rem;
+  display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center;
+}
+@media (min-width: 900px) {
+  .duo--photo-left  { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 4.5rem; }
+  .duo--photo-right { grid-template-columns: minmax(0, 1fr) minmax(0, .82fr); gap: 4.5rem; }
+  .duo--text-left   { grid-template-columns: minmax(0, 1fr) minmax(0, .62fr); gap: 4.5rem; align-items: end; }
+}
+.duo-media { margin: 0; }
+.duo-media img { display: block; width: 100%; height: auto; }
+.duo-text h2 { max-width: 18ch; }
+.duo-text p, .duo-text .lede { max-width: 40rem; }
+.duo-text .stair { margin-left: 0; margin-right: 0; padding: 0; max-width: none; }
+.duo-text .stair li { max-width: none; }
+
+.entries--two { display: grid; grid-template-columns: 1fr; gap: 0 4rem; margin-top: 3rem; }
+@media (min-width: 820px) { .entries--two { grid-template-columns: 1fr 1fr; } }
+.entries--two .entry { border-top: 1px solid var(--rule); }
+
+/* ---- the demos, as pictures of themselves ------------------------------ */
+.previews { list-style: none; padding: 0; margin: 3rem 0 0; display: grid;
+            grid-template-columns: 1fr; gap: 2.75rem 2.5rem; }
+@media (min-width: 820px) { .previews { grid-template-columns: 1fr 1fr 1fr; } }
+.preview a { display: block; text-decoration: none; color: inherit; }
+.preview img {
+  display: block; width: 100%; height: auto; border: 1px solid var(--rule);
+  background: #fff; transition: border-color .2s ease, transform .2s ease;
+}
+.preview a:hover img { border-color: var(--terracotta); transform: translateY(-2px); }
+.preview-kicker {
+  display: block; margin-top: 1rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--terracotta);
+}
+.preview-title {
+  display: block; margin-top: .45rem; font-family: "Fraunces", Georgia, serif;
+  font-weight: 600; font-size: 1.12rem; line-height: 1.25; letter-spacing: -.015em;
+}
+.preview-note { display: block; margin-top: .4rem; color: var(--ink-soft); font-size: .93rem; line-height: 1.6; }
+@media (min-width: 820px) {
+  .preview--lead { grid-column: span 3; display: grid; grid-template-columns: 1.25fr 1fr; gap: 2.5rem; align-items: center; }
+  .preview--lead a { display: grid; grid-template-columns: 1.25fr 1fr; gap: 2.5rem; align-items: center; grid-column: span 3; }
+  .preview--lead .preview-kicker { margin-top: 0; }
+  .preview--lead .preview-title { font-size: 1.6rem; }
+}
+
+/* ---- the hero, now a duo ------------------------------------------------ */
+.hero { background: var(--ink); }
+.hero-grid {
+  max-width: 1240px; margin: 0 auto; padding: 0 2rem;
+  display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center;
+}
+@media (min-width: 940px) { .hero-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 4rem; } }
+.hero-photo { margin: 0; }
+.hero-photo img { display: block; width: 100%; height: auto; }
+.hero h1 { max-width: 14ch; }
+.hero-proof { max-width: 30ch; }
+.hero-sub { max-width: 42ch; }
+
+/* The lead preview is an anchor holding a picture and a block of text, so it
+   needs exactly two grid children. Four loose spans landed in four cells and
+   put the title under the image instead of beside it. */
+.preview-text { display: block; }
+@media (min-width: 820px) {
+  .preview--lead a { grid-template-columns: 1.3fr .9fr; align-items: center; }
+  .preview--lead .preview-text { align-self: center; }
+}
+/* The prices sat in a 1000px box under a 1240px heading, which read as a
+   second, narrower page inside the first. */
+#offers .doorway, #offers .joblist { max-width: 1240px; }
+
+/* The subpages kept the old navy while the front page moved to the warmer
+   ink, so two shades of near-black sat on the same site. And check.html's
+   form was centred under a left-aligned hero, which is the alignment
+   problem the front page just spent a round fixing. */
+header.masthead { background: var(--ink); }
+#check .row.justify-content-center { justify-content: flex-start !important; }
+#check .col-lg-9 { max-width: 46rem; }
+.case-hero, .masthead { color: #fff; }
+
+/* ==========================================================================
+   19 AUGUST, LATER: THE PHOTOGRAPHS COME OUT AGAIN.
+
+   Four stock photographs went in this evening and four came out. They were
+   licensed correctly and credited correctly, and that was not the problem:
+   on a page whose whole argument is that it invents no customers, a picture
+   of somebody else's cafe reads as a customer, or as my premises. It is
+   neither, and a picture that has to be explained is doing damage rather
+   than work.
+
+   What carries the page instead is what carries the pages worth copying:
+   type, space, and two colours. One photograph is left, of a desk, which
+   claims nothing.
+   ========================================================================== */
+
+/* A heading block that owns its own width, so a section without a picture
+   does not leave the old empty right half behind. */
+.section-head { max-width: 40rem; margin-bottom: 3.25rem; }
+.section-head h2 { max-width: 20ch; margin-bottom: 1rem; }
+.section-head .lede { margin: 0; }
+
+/* Three steps side by side now that nothing sits next to them. */
+.stair--three { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: 0; }
+@media (min-width: 880px) {
+  .stair--three { grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+  .stair--three li { border-top: 1px solid var(--rule) !important; padding-top: 1.6rem; margin-left: 0; }
+}
+.stair--three li { max-width: 34rem; }
+
+/* The hero stands on its own. Type at this size does not need a picture
+   beside it, and the picture that was there was a cafe nobody has been to. */
+.hero-inner { max-width: 1240px; }
+.hero h1 { max-width: 15ch; }
+
+/* The previews are pictures, not framed cards. A hairline box around a
+   screenshot turns a picture into a widget. */
+.preview img {
+  border: 0; background: transparent;
+  box-shadow: 0 1px 2px rgba(22, 36, 47, .06), 0 12px 28px rgba(22, 36, 47, .09);
+}
+.preview a:hover img {
+  border: 0; transform: translateY(-3px);
+  box-shadow: 0 2px 4px rgba(22, 36, 47, .08), 0 18px 40px rgba(22, 36, 47, .13);
+}
+
+/* ==========================================================================
+   19 AUGUST, THE TWO THAT KEPT COMING BACK.
+
+   ONE. The grey box around every demo picture was never a border. Outline
+   was none and the border had already been removed; what made a box was the
+   picture itself. Each preview was a screenshot of a whole PAGE, so it
+   carried the page's own empty margins inside the JPEG, and a wide margin
+   inside a picture reads exactly like a frame around it. They are cropped to
+   the demo element now, so the picture is the thing rather than a page with
+   the thing in a corner. The panes on the demo page lost their hairline too.
+
+   TWO. The cut. Every section had a container of 1240 and content that
+   stopped somewhere around 640, so half the screen sat empty beside it.
+   One width now, 1080, genuinely centred, and every grid inside it spans
+   that width instead of clustering at the left.
+   ========================================================================== */
+
+:root { --content: 1080px; }
+
+.wide, .hero-inner, .duo, .doorway, .joblist, .column--left, .previews,
+#offers .doorway, #offers .joblist {
+  max-width: var(--content); margin-left: auto; margin-right: auto;
+}
+.column { max-width: 720px; }          /* text-only: centred, comfortable */
+.section-head { max-width: 46rem; }
+
+/* THE HERO: the headline fills the measure rather than sitting in a corner. */
+.hero h1 {
+  font-size: clamp(2.5rem, 7.4vw, 5.6rem); line-height: .98; letter-spacing: -.045em;
+  max-width: 15ch; margin-bottom: 2rem;
+}
+.hero-proof { max-width: 34ch; font-size: clamp(1.3rem, 2.3vw, 1.75rem); }
+.hero-sub { max-width: 46ch; }
+.hero { padding: clamp(6rem, 13vh, 9rem) 0 clamp(5rem, 11vh, 7.5rem); }
+
+/* GRIDS THAT SPAN. Four services across the whole width, three steps as
+   three equal columns, the jobs likewise. */
+.entries--two { grid-template-columns: 1fr; }
+@media (min-width: 760px)  { .entries--two { grid-template-columns: 1fr 1fr; gap: 0 3.5rem; } }
+@media (min-width: 1120px) { .entries--two { grid-template-columns: repeat(4, 1fr); gap: 0 2.5rem; } }
+.entries--two .entry { max-width: none; }
+.entries--two .entry p { max-width: none; }
+
+.stair--three { max-width: none; margin-left: 0; margin-right: 0; padding: 0; }
+.stair--three li { max-width: none; }
+
+.joblist { grid-template-columns: 1fr; }
+@media (min-width: 760px)  { .joblist { grid-template-columns: 1fr 1fr; column-gap: 3.5rem; } }
+@media (min-width: 1120px) { .joblist { grid-template-columns: repeat(4, 1fr); column-gap: 2.5rem; } }
+.job { max-width: none; }
+.job p { max-width: none; }
+.doorway-text { max-width: none; }
+.doorway-text p { max-width: none; }
+
+.worklist--two { gap: 0 3.5rem; }
+.duo-text p, .duo-text .lede { max-width: none; }
+.previews { padding: 0; }
+@media (min-width: 820px) { .previews { grid-template-columns: repeat(3, 1fr); } }
+
+/* the demo page's own hero had the same empty right half */
+header.masthead .hero-copy { max-width: none; }
+header.masthead h1 { max-width: 20ch; font-size: clamp(2.1rem, 4.6vw, 3.4rem); }
+header.masthead .lead { max-width: 60ch; }
+
+/* The jobs row had the container width but not its padding, so it sat 32px
+   wider than every other row and ran to the very edge on a phone. */
+.doorway, .joblist { padding-left: 2rem; padding-right: 2rem; }
+
+/* And the headline: 15ch of 5.6rem filled 77% of the measure, which still
+   left a quarter of the line empty. It is meant to fill it. */
+.hero h1 { font-size: clamp(2.6rem, 8.2vw, 6.4rem); max-width: 14ch; }
+
+/* The demo page's own hero stopped at 825 while the comparison under it ran
+   to 1332, which is the same empty right half one page over. */
+header.masthead h1 { max-width: 24ch; font-size: clamp(2.2rem, 5.4vw, 4rem); line-height: 1.03; }
+header.masthead .lead { max-width: 68ch; }
+
+/* Trimming the pictures was half of it. The other half: whatever aspect a
+   demo happens to have, the slot shows a full frame of content and never a
+   band of empty paper, because an empty band inside a picture is what read
+   as a grey box in the first place. */
+.preview img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; }
+.preview--lead img { aspect-ratio: 16 / 9; }
+
+/* The shadow was still drawing the rectangle it was meant to avoid, and the
+   lead preview was being sliced mid-row by a 16:9 crop it never fitted. */
+.preview img {
+  box-shadow: 0 6px 18px rgba(22, 36, 47, .055);
+}
+.preview a:hover img {
+  box-shadow: 0 10px 26px rgba(22, 36, 47, .085);
+  transform: translateY(-2px);
+}
+.preview--lead img { aspect-ratio: auto; object-fit: contain; }
+
+/* On a phone both lines were leaving one word behind: "price." and "not."
+   alone. The desktop fix was the measure; here it is the size, because at
+   390px the measure is the screen. */
+@media (max-width: 520px) {
+  .hero h1 { font-size: 2.15rem; max-width: none; }
+  .hero-proof { font-size: 1.16rem; max-width: none; }
+  .hero-sub { font-size: .98rem; }
+}
+
+/* ==========================================================================
+   TWO THINGS SEEN RATHER THAN MEASURED.
+
+   ONE. Four columns with a rule over each one read as four cards in a row,
+   which is the tell the linter is named after even when the rule is a single
+   hairline rather than a box. The rules are gone. What separates the four
+   services now is the space between them, which is what separates paragraphs
+   in a book.
+
+   TWO. `.band + .band { padding-top: 0 }` was written when every band was
+   white, where collapsing the gap between two of them is right. The moment a
+   band had its own colour it became wrong: #how measured padding-top 0, so
+   its heading sat 38px below the edge of the beige and the colour cut
+   straight through at the line of type. A coloured band keeps its own air on
+   both sides, always.
+   ========================================================================== */
+
+.entries--two .entry, .entry { border-top: 0 !important; padding: 0 0 2.75rem; }
+.entries--two { row-gap: 1rem; }
+.entries--two .entry h3 { margin-bottom: .6rem; }
+
+.band.band--tint { padding-top: 8rem; padding-bottom: 8rem; }
+.band--tint + .band { padding-top: 8rem; }
+.band.band--rule { padding-top: 7rem; }
+.hero { padding-top: clamp(6rem, 13vh, 9rem); padding-bottom: clamp(5.5rem, 12vh, 8rem); }
+
+/* The three steps carried a rule over each column, which is the same shape
+   as the four services did and reads the same way. Not named in the report,
+   but it is the same tell, so it goes with them. */
+.stair--three li { border-top: 0 !important; padding-top: 0; }
+.stair--three { row-gap: 2.75rem; }
+
+/* Same shape, same fix, everywhere it occurs: four price columns each closed
+   by its own hairline, and two example columns fenced top and bottom, are
+   cells however thin the lines are. Space separates them now. A rule that
+   runs the whole width is a rule; four rules with gaps between them is a
+   table. */
+.joblist .job { border-bottom: 0 !important; padding-bottom: 2.75rem; }
+.worklist--two li a { border-top: 0 !important; border-bottom: 0 !important; padding: 0 0 2.25rem; }
+.worklist--two { row-gap: .5rem; }
+.worklist--two li:nth-last-child(-n+2) a { border-bottom: 0 !important; }

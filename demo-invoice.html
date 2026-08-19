@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Demo: invoice to spreadsheet | Nordverify</title>
+<meta name="description" content="A fictional invoice becomes one row in a table, with each field mapped visibly from document to column.">
+<link rel="icon" type="image/png" sizes="256x256" href="assets/brand/favicon_256.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/favicon_64.png">
+<link href="css/styles.css" rel="stylesheet">
+<link href="css/nordverify.css" rel="stylesheet">
+<style>
+  .demo-badge {
+    display: inline-block; margin-bottom: 1.1rem; padding: .3rem .7rem;
+    border: 1px solid var(--nv-slate); color: #526a80; font-size: .78rem;
+    font-weight: 650; letter-spacing: .04em; border-radius: 3px;
+  }
+  .demo-board { display: grid; grid-template-columns: 340px 1fr; gap: 1.75rem; align-items: start; }
+  .invoice-doc {
+    background: #fff; border: 1px solid #cad4dc; padding: 1.4rem 1.5rem; font-size: .9rem;
+  }
+  .invoice-doc h3 {
+    font: 700 .72rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: .12em; text-transform: uppercase; color: #526a80; margin: 0 0 .9rem;
+  }
+  .invoice-doc .doc-title { font-weight: 750; color: var(--nv-navy); margin-bottom: .9rem; font-size: 1rem; }
+  .doc-field { display: flex; justify-content: space-between; gap: .5rem; padding: .4rem 0; border-bottom: 1px dashed #cad4dc; }
+  .doc-field .f-label { color: #526a80; }
+  .doc-field .f-value { color: var(--nv-navy); font-weight: 600; transition: box-shadow .3s ease, background .3s ease; padding: .05rem .25rem; border-radius: 2px; }
+  .doc-field .f-value.on { background: #d6f3e8; box-shadow: 0 0 0 1px #39d39b; }
+  .sheet-panel { background: #fff; border: 1px solid #cad4dc; padding: 1.4rem 1.5rem; }
+  .sheet-panel h3 {
+    font: 700 .72rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: .12em; text-transform: uppercase; color: #526a80; margin: 0 0 .9rem;
+  }
+  table.sheet { width: 100%; border-collapse: collapse; font-size: .86rem; }
+  table.sheet th, table.sheet td { border: 1px solid #cad4dc; padding: .55rem .6rem; text-align: left; }
+  table.sheet th { background: #f2f5f7; color: #526a80; font-weight: 650; font-size: .76rem; text-transform: uppercase; letter-spacing: .05em; }
+  table.sheet td { color: var(--nv-navy); min-height: 1.3em; transition: background .3s ease; }
+  table.sheet td.on { background: #d6f3e8; }
+  #run-map { margin-top: 1.25rem; }
+  #map-status { margin-top: .9rem; font-size: .92rem; color: #526a80; min-height: 1.4em; }
+  @media (max-width: 900px) { .demo-board { grid-template-columns: 1fr; } table.sheet { display: block; overflow-x: auto; } }
+</style>
+</head>
+<body id="page-top">
+<nav class="navbar navbar-expand-lg fixed-top py-3" id="mainNav"><div class="container px-4 px-lg-5"><a class="navbar-brand" href="index.html"><img src="assets/brand/mark_transparent_512.png" alt=""><span>Nordverify</span></a><a class="nav-link" href="index.html#services">Back to services</a></div></nav>
+
+<header class="masthead">
+  <img class="hero-mark" src="assets/brand/mark_transparent_512.png" alt="" aria-hidden="true">
+  <div class="container px-4 px-lg-5 h-100 d-flex align-items-center">
+    <div class="hero-copy">
+      <div class="eyebrow mb-4">Demo</div>
+      <h1 class="text-white mb-4">One invoice, mapped into one spreadsheet row</h1>
+      <p class="lead mb-0">I take five fields off the document and place each one in its own column, so the mapping stays visible instead of hidden inside a script.</p>
+    </div>
+  </div>
+</header>
+
+<section class="page-section" id="demo">
+  <div class="container px-4 px-lg-5">
+    <span class="demo-badge">Demo - sample data</span>
+    <p class="section-intro mb-4">One fictional invoice, invented for this page. Nothing here reads a real document or writes to a real spreadsheet.</p>
+
+    <div class="demo-board">
+      <div class="invoice-doc">
+        <h3>Invoice</h3>
+        <div class="doc-title">Nordhavn Elektrik ApS</div>
+        <div class="doc-field"><span class="f-label">Invoice #</span><span class="f-value" id="f-number">INV-1042</span></div>
+        <div class="doc-field"><span class="f-label">Vendor</span><span class="f-value" id="f-vendor">Nordhavn Elektrik ApS</span></div>
+        <div class="doc-field"><span class="f-label">Date</span><span class="f-value" id="f-date">2026-08-14</span></div>
+        <div class="doc-field"><span class="f-label">Due</span><span class="f-value" id="f-due">2026-09-13</span></div>
+        <div class="doc-field"><span class="f-label">Amount</span><span class="f-value" id="f-amount">4,250.00 kr</span></div>
+        <button class="btn btn-primary" id="run-map" type="button">Map to spreadsheet</button>
+        <p id="map-status" aria-live="polite"></p>
+      </div>
+      <div class="sheet-panel">
+        <h3>Spreadsheet</h3>
+        <table class="sheet">
+          <thead><tr><th>Invoice #</th><th>Vendor</th><th>Date</th><th>Due</th><th>Amount</th></tr></thead>
+          <tbody><tr id="sheet-row">
+            <td id="c-number"></td><td id="c-vendor"></td><td id="c-date"></td><td id="c-due"></td><td id="c-amount"></td>
+          </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<aside class="contact-strip"><div class="container px-4 px-lg-5 d-flex flex-wrap justify-content-between gap-3"><span>This is what the data service looks like from the inside.</span><a href="index.html#services">Back to services</a></div></aside>
+
+<footer class="site-footer py-5"><div class="container px-4 px-lg-5"><div class="footer-row d-flex justify-content-between align-items-center gap-4">
+  <div class="d-flex align-items-center gap-3"><img class="footer-mark" src="assets/brand/mark_transparent_512.png" alt="Nordverify mark"><div><strong class="text-white">Nordverify v/Malthe Merved</strong><br>Denmark</div></div>
+  <div class="d-flex align-items-center gap-4"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:merved@nordverify.com">merved@nordverify.com</a></div>
+</div></div></footer>
+
+<script src="js/scripts.js"></script>
+<script src="js/demo-invoice.js"></script>
+</body>
+</html>

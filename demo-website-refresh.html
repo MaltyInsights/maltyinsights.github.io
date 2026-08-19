@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Demo: a tired site becomes a current one | Nordverify</title>
+<meta name="description" content="A fictional shop's old page and the same page rebuilt, side by side, with each thing that changed named as it happens.">
+<link rel="icon" type="image/png" sizes="256x256" href="assets/brand/favicon_256.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/favicon_64.png">
+<link href="css/styles.css" rel="stylesheet">
+<link href="css/nordverify.css" rel="stylesheet">
+<style>
+  /* Scoped to this page. Nothing here loads from anywhere but nordverify.com,
+     and nothing on this page talks to a network at all. The bicycle is an
+     inline SVG for the same reason: a real picture with no request behind it. */
+  .demo-badge {
+    display: inline-block; margin-bottom: 1.1rem; padding: .3rem .7rem;
+    border: 1px solid var(--nv-slate); color: #526a80; font-size: .78rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: .09em; text-transform: uppercase;
+  }
+  .stage { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: stretch; }
+  .pane { display: flex; flex-direction: column; }
+  .old, .new { flex: 1 1 auto; }
+  @media (min-width: 1000px) { .stage { grid-template-columns: 1fr 1fr; } }
+  /* No frame around the demo. A hairline box turns a picture of a website
+     into a widget, and these two panes ARE the picture. The browser bar
+     inside them is content; the border around them was decoration. */
+  .pane { border: 0; background: #fff; overflow: hidden;
+          box-shadow: 0 1px 2px rgba(22,36,47,.06), 0 14px 34px rgba(22,36,47,.10); }
+  .pane-head {
+    padding: .55rem .9rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+    border-bottom: 1px solid var(--nv-line); color: #526a80;
+    display: flex; justify-content: space-between;
+  }
+  .browser-bar {
+    display: flex; gap: .35rem; align-items: center; padding: .5rem .7rem;
+    background: #e9edf1; border-bottom: 1px solid var(--nv-line);
+  }
+  .browser-bar i { width: 9px; height: 9px; border-radius: 50%; background: #c3ccd6; display: block; }
+  .browser-url {
+    margin-left: .5rem; background: #fff; border: 1px solid #d6dde4; padding: .12rem .55rem;
+    font-size: .68rem; color: #7b8b99; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  /* ---------------------------------------------------------------- BEFORE
+     Everything here is a thing the free check on this site actually looks
+     for. It is meant to feel like 2010, because that is what a page nobody
+     has touched since 2015 looks like to somebody arriving today. */
+  .old {
+    font-family: "Times New Roman", Times, serif; color: #000;
+    background: #fff; padding: 0 0 1rem; line-height: 1.15; font-size: 13px;
+  }
+  .old .oldnav {
+    background: #ffffff; border-bottom: 1px solid #000; padding: .35rem .6rem;
+    text-align: center; font-size: 12px;
+  }
+  .old .oldnav a { color: #0000ee; text-decoration: underline; }
+  .old .oldnav a:visited { color: #551a8b; }
+  .old .oldwrap { padding: .8rem .9rem 0; }
+  .old .oldtitle {
+    font-size: 26px; color: #000080; font-weight: bold; text-align: center;
+    margin: .3rem 0 .1rem; font-family: "Times New Roman", Times, serif;
+  }
+  .old .oldtag { text-align: center; font-style: italic; color: #444; font-size: 12px; margin-bottom: .7rem; }
+  .old hr { border: 0; border-top: 1px solid #999; margin: .6rem 0; }
+  .old .imgbox {
+    width: 190px; height: 110px; background: #d8d8d8; border: 1px solid #a0a0a0;
+    color: #6b6b6b; font-size: 11px; display: flex; align-items: center;
+    justify-content: center; float: left; margin: 0 .7rem .4rem 0;
+    image-rendering: pixelated;
+    background-image:
+      linear-gradient(45deg, #cfcfcf 25%, transparent 25%, transparent 75%, #cfcfcf 75%),
+      linear-gradient(45deg, #cfcfcf 25%, transparent 25%, transparent 75%, #cfcfcf 75%);
+    background-size: 12px 12px; background-position: 0 0, 6px 6px;
+  }
+  .old p { margin: 0 0 .55rem; font-size: 13px; line-height: 1.15; }
+  .old .lorem { color: #555; }
+  .old .oldbtn {
+    display: inline-block; border: 2px outset #d4d0c8; background: #ece9d8;
+    padding: .1rem .55rem; font-size: 12px; color: #000; font-family: Verdana, Geneva, sans-serif;
+  }
+  .old .oldfoot {
+    clear: both; margin-top: .9rem; border-top: 1px solid #999; padding: .45rem .9rem 0;
+    font-size: 11px; color: #444; text-align: center;
+  }
+  .old .counter { font-family: "Courier New", Courier, monospace; font-size: 11px; }
+  .old .ielink { color: #0000ee; text-decoration: underline; }
+
+  /* ----------------------------------------------------------------- AFTER
+     A DIFFERENT DESIGN, ON PURPOSE. The point of this demo is that I can
+     build a site for somebody else, not that I can build mine again. So the
+     rebuilt page uses none of nordverify.com's own vocabulary: warm paper
+     instead of navy, a serif for the headline instead of the sans used
+     everywhere here, terracotta instead of the green, and a photograph
+     rather than a drawing. A bike shop should look like a bike shop. */
+  .new { background: #faf6f0; color: #2a211c; font-family: inherit; }
+  .new .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: .9rem 1.3rem; border-bottom: 1px solid #e6ddd0; background: #fffdfa;
+  }
+  .new .brandmark {
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-weight: 700; font-size: 1.06rem; letter-spacing: -.01em; color: #2a211c;
+  }
+  .new .hours-badge {
+    background: #f3e6dc; color: #96411f; border: 1px solid #e4cdbc;
+    padding: .24rem .68rem; font-size: .74rem; font-weight: 650; border-radius: 2px;
+    white-space: nowrap; letter-spacing: .01em;
+  }
+  .new .newhero {
+    padding: 1.9rem 1.3rem 1.6rem;
+    display: grid; grid-template-columns: 1fr; gap: 1.3rem; align-items: center;
+  }
+  @media (min-width: 560px) { .new .newhero { grid-template-columns: 1.05fr .95fr; } }
+  .new .newhero h4 {
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: clamp(1.35rem, 2.5vw, 1.95rem); line-height: 1.12; letter-spacing: -.015em;
+    margin: 0 0 .7rem; color: #2a211c; font-weight: 700;
+  }
+  .new .newhero p { color: #6b5b50; font-size: .93rem; line-height: 1.7; margin: 0 0 1.2rem; }
+  .new .newbtn {
+    display: inline-block; background: #c2532f; color: #fff;
+    font-weight: 650; padding: .62rem 1.2rem; font-size: .92rem; text-decoration: none;
+    border-radius: 2px;
+  }
+  .new .newbtn:hover { background: #a8451f; color: #fff; }
+  .new .shopphoto { margin: 0; }
+  .new .shopphoto img { display: block; width: 100%; height: auto; border-radius: 2px; }
+  /* THREE COLUMNS SEPARATED BY RULES ARE THREE CARDS IN A ROW, which is a
+     named tell whatever the rules are made of. The dividers are gone and the
+     space between them does the work instead. */
+  .new .newcols {
+    display: grid; grid-template-columns: 1fr; gap: 1.4rem;
+    padding: 1.5rem 1.3rem 1.7rem; background: #fffdfa;
+  }
+  @media (min-width: 560px) { .new .newcols { grid-template-columns: repeat(3, 1fr); gap: 2.2rem; } }
+  .new .newcol { padding: 0; }
+  .new .newcol b {
+    display: block; font-size: .92rem; margin-bottom: .3rem; color: #2a211c;
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  }
+  .new .newcol span { color: #6b5b50; font-size: .83rem; line-height: 1.6; }
+  .new .newfoot { padding: .9rem 1.3rem; font-size: .78rem; color: #8a7a6d; border-top: 1px solid #e6ddd0; }
+  .new .reveal { opacity: 0; transition: opacity .5s ease; }
+  .new .reveal.shown { opacity: 1; }
+  /* The resting state has to look deliberate rather than broken: an empty
+     plane with nothing in it reads as a page that failed to load. */
+  .new .waiting { color: #8a7a6d; font-size: .88rem; line-height: 1.6; margin: 0; }
+  .new .waiting strong { color: #c2532f; }
+  .new .waiting[hidden] { display: none; }
+
+  .bandphoto {
+    margin: 2.75rem 0 0; display: grid; grid-template-columns: 1fr; gap: 1rem;
+    align-items: end;
+  }
+  @media (min-width: 760px) { .bandphoto { grid-template-columns: 15rem 1fr; gap: 2rem; } }
+  .bandphoto img { display: block; width: 100%; height: auto; }
+  .bandphoto figcaption { color: var(--nv-ink-soft); font-size: .88rem; line-height: 1.7; margin: 0; }
+  .changes { margin-top: 2.25rem; max-width: 820px; }
+  .change-row {
+    display: grid; grid-template-columns: auto 1fr; gap: .9rem;
+    padding: .95rem 0; border-top: 1px solid var(--nv-line);
+    opacity: .32; transition: opacity .35s ease;
+  }
+  .change-row.lit { opacity: 1; }
+  .change-row:last-child { border-bottom: 1px solid var(--nv-line); }
+  .change-n { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--nv-green); font-weight: 700; }
+  .change-row .what { color: var(--nv-navy); font-weight: 650; }
+  .change-row .why { color: var(--nv-ink-soft); display: block; font-weight: 400; margin-top: .2rem; line-height: 1.65; }
+  .controls { margin-top: 1.6rem; display: flex; gap: .7rem; flex-wrap: wrap; align-items: center; }
+  .step-note { color: #526a80; font-size: .9rem; }
+</style>
+</head>
+<body id="page-top">
+
+<nav class="navbar navbar-expand-lg fixed-top py-3" id="mainNav">
+  <div class="container px-4 px-lg-5">
+    <a class="navbar-brand" href="index.html"><img src="assets/brand/mark_transparent_512.png" alt=""><span>Nordverify</span></a>
+    <a class="nav-link" href="index.html#demos">Back to demos</a>
+  </div>
+</nav>
+
+<header class="masthead">
+  <img class="hero-mark" src="assets/brand/mark_transparent_512.png" alt="" aria-hidden="true">
+  <div class="container px-4 px-lg-5 d-flex align-items-center">
+    <div class="hero-copy">
+      <div class="eyebrow mb-4">Demo</div>
+      <h1 class="text-white mb-4">A tired page, and the same page rebuilt</h1>
+      <p class="lead mb-0">On the left is a made-up shop's website as it might look after ten years of nobody touching it. Press the button and the right side becomes what I would hand back, one change at a time, with each change named as it happens.</p>
+    </div>
+  </div>
+</header>
+
+<section class="page-section" id="demo">
+  <div class="container px-4 px-lg-5">
+    <span class="demo-badge">Demo - sample data</span>
+    <p class="section-intro mb-4">Nordhavn Cykler is invented for this page. It is not a customer, the old page is not anyone's real site, and nothing here loads or sends anything. The photograph on the right is a file in this repository, licensed CC0 and listed in assets/img/LICENSES.md, so even it is not a request to somewhere else.</p>
+
+    <div class="stage">
+
+      <!-- ------------------------------------------------------ BEFORE -->
+      <div class="pane">
+        <div class="pane-head"><span>Before</span><span>as it is today</span></div>
+        <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">nordhavncykler.example</span></div>
+        <div class="old">
+          <div class="oldnav">
+            <a href="#demo">Home</a> | <a href="#demo">Products</a> | <a href="#demo">Prices</a> | <a href="#demo">Contact</a> | <a href="#demo">Links</a>
+          </div>
+          <div class="oldwrap">
+            <div class="oldtitle">Welcome to the website!</div>
+            <div class="oldtag">Nordhavn Cykler - Quality bicycles since 1998</div>
+            <hr>
+            <div class="imgbox">[ image ]</div>
+            <p>Nordhavn Cykler is the local bicycle shop. Bicycles of all makes are sold and repaired here. Please call for opening hours.</p>
+            <p>The shop has been at the same address for many years and carries a wide range of products for the whole family. Repairs are carried out on the premises.</p>
+            <p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p><span class="oldbtn">Click here</span></p>
+          </div>
+          <div class="oldfoot">
+            Copyright &copy; 2015 Nordhavn Cykler. All rights reserved.<br>
+            <span class="ielink">Best viewed in Internet Explorer 8 at 1024x768</span><br>
+            <span class="counter">You are visitor number 004213</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------- AFTER -->
+      <div class="pane">
+        <div class="pane-head"><span>After</span><span>what I would hand back</span></div>
+        <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">nordhavncykler.example</span></div>
+        <div class="new" id="new-pane">
+          <div class="topbar">
+            <span class="brandmark">Nordhavn Cykler</span>
+            <span class="hours-badge reveal" id="n-hours">Open today until 17:30</span>
+          </div>
+
+          <div class="newhero">
+            <div>
+              <p class="waiting" id="n-prompt">This side is empty on purpose. Press <strong>Rebuild the page</strong> and it fills in, one change at a time.</p>
+              <h4 class="reveal" id="n-head">Bicycle repairs in Nordhavn, usually the same week</h4>
+              <p class="reveal" id="n-body">A repair workshop and a small selection of city bikes, five minutes from Nordhavn station. Bring the bike in, or book a time and you get told what it needs before any work starts.</p>
+              <a class="newbtn reveal" id="n-cta" href="#demo">Book a repair</a>
+            </div>
+            <figure class="shopphoto reveal" id="n-art">
+              <img src="assets/img/green-bicycle.jpg" alt="A green city bicycle leaning against a wall" width="1400" height="934" loading="lazy" decoding="async">
+            </figure>
+          </div>
+
+          <div class="newcols reveal" id="n-cols">
+            <div class="newcol"><b>Repairs</b><span>Punctures, gears and brakes, most done while you wait.</span></div>
+            <div class="newcol"><b>Service</b><span>A full check before the season, booked in advance.</span></div>
+            <div class="newcol"><b>City bikes</b><span>A small stock of new and second hand, ready to ride.</span></div>
+          </div>
+
+          <div class="newfoot"><span class="reveal" id="n-foot-in">Nordhavn Cykler, Copenhagen. Page updated 2026.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <figure class="bandphoto">
+      <img src="assets/img/bike-rainy-street.jpg" alt="A bicycle parked on a wet city street" width="1200" height="1800" loading="lazy" decoding="async">
+      <figcaption>The kind of shop this is for. Not a customer, and not a claim: a photograph, licensed CC0, listed with its source in assets/img/LICENSES.md.</figcaption>
+    </figure>
+
+    <div class="controls">
+      <button class="btn btn-primary" type="button" id="run">Rebuild the page</button>
+      <button class="btn btn-outline-secondary" type="button" id="reset">Start over</button>
+      <span class="step-note" id="note">Six changes, in the order I would make them.</span>
+    </div>
+
+    <div class="changes" id="changes">
+      <div class="change-row" id="c1"><span class="change-n">1</span><span class="what">A grey box where a picture should be<span class="why">The old page has an empty placeholder that was never filled in. A real picture goes there, sized so it loads fast and still looks sharp on a phone.</span></span></div>
+      <div class="change-row" id="c2"><span class="change-n">2</span><span class="what">The heading welcomed you instead of saying what the shop does<span class="why">Somebody arriving from a search wants to know they are in the right place. It now names the job and the town, in a typeface you can read at arm's length instead of a serif squeezed to 13 pixels.</span></span></div>
+      <div class="change-row" id="c3"><span class="change-n">3</span><span class="what">Leftover filler text from the template<span class="why">The lorem ipsum was never replaced. It is gone, and the space now answers the question people actually arrive with, with room to breathe around it.</span></span></div>
+      <div class="change-row" id="c4"><span class="change-n">4</span><span class="what">One clear button instead of "click here"<span class="why">A grey system button that names nothing gets pressed by nobody. One button, in one colour used nowhere else on the page, saying what happens when you press it.</span></span></div>
+      <div class="change-row" id="c5"><span class="change-n">5</span><span class="what">The layout was built for a desktop screen<span class="why">Text floating around a fixed-width image breaks the moment the screen is narrow. The three things the shop sells now sit in a row that folds into a column on a phone, which is where most people will see it.</span></span></div>
+      <div class="change-row" id="c6"><span class="change-n">6</span><span class="what">Opening hours were a phone call away, and the date said 2015<span class="why">The one thing people came for is now the first thing they see, as a small badge at the top. And the year at the bottom says when the page was last touched, because it was.</span></span></div>
+    </div>
+
+    <p class="section-intro mt-4 mb-0">This is what the new website package covers, from $499. <a href="index.html#offers">See what it costs</a>, or <a href="check.html">check your own site free</a> to see which of these six your page has.</p>
+  </div>
+</section>
+
+<footer class="site-footer py-5"><div class="container px-4 px-lg-5"><div class="footer-row d-flex justify-content-between align-items-center gap-4">
+  <div class="d-flex align-items-center gap-3"><img class="footer-mark" src="assets/brand/mark_transparent_512.png" alt="Nordverify mark"><div><strong class="text-white">Nordverify v/Malthe Merved</strong><br>Denmark</div></div>
+  <div class="d-flex align-items-center gap-4"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:merved@nordverify.com">merved@nordverify.com</a></div>
+</div></div></footer>
+
+<script src="js/demo-website-refresh.js"></script>
+</body>
+</html>

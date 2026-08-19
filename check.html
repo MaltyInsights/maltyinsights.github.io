@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Check a website | Nordverify</title>
+<meta name="description" content="Enter a website's URL and get back an honest, evidence-based receipt: what loads, what does not, and what could not be checked.">
+<meta property="og:title" content="Check a website | Nordverify">
+<meta property="og:description" content="Does the page open, is it safe to visit, do the links work, does it fit a phone, is there leftover text, how old is the date at the bottom. Shown as CHECKED, FOUND or NOT CHECKED.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" sizes="256x256" href="assets/brand/favicon_256.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/brand/favicon_64.png">
+<link href="css/styles.css" rel="stylesheet">
+<link href="css/nordverify.css" rel="stylesheet">
+<style>
+  /* Scoped to this page only — nothing here is loaded from anywhere but
+     this file, and it reuses the site's own colour variables from
+     css/nordverify.css rather than inventing new ones. */
+  /* THIS PAGE IS ONE INPUT, NOT A STOREFRONT. The shared masthead is built
+     for the front page's hero and left almost a thousand pixels of empty
+     navy above a single form field. Scoped down here rather than shortened
+     for every page. */
+  header.masthead .hero-mark { opacity: .1; }
+  #check.page-section { padding: 4rem 0 5rem; }
+  .check-form { max-width: 560px; }
+  .manual-check { max-width: 620px; margin-top: 2.5rem; padding: 2rem 1.9rem;
+                  background: var(--nv-sage); border-left: 3px solid var(--nv-green); }
+  .manual-check h2 { font-size: 1.35rem; margin: 0 0 .75rem; }
+  .manual-check p { color: #24483a; line-height: 1.7; }
+  .manual-check .privacy-line { margin-bottom: 0; }
+  .check-form .row-inline { display: flex; gap: .6rem; flex-wrap: wrap; }
+  .check-form input[type="url"] {
+    flex: 1 1 280px; padding: .85rem 1rem; border: 1px solid #cad4dc;
+    font-size: 1.02rem; font-family: inherit; color: var(--nv-navy);
+  }
+  .check-form input[type="url"]:focus-visible { outline: 3px solid var(--nv-green); outline-offset: 2px; }
+  .privacy-line { color: #526a80; font-size: .88rem; margin-top: .75rem; }
+  .check-status { margin: 1.5rem 0; color: #526a80; }
+  .check-status[hidden] { display: none; }
+  .receipt {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: #cad4dc; border: 1px solid #cad4dc; margin: 2rem 0;
+  }
+  .receipt[hidden] { display: none; }
+  .receipt-col { background: #fff; padding: 1.15rem 1.25rem; }
+  .receipt-col h3 {
+    font: 700 .72rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: .14em; text-transform: uppercase; margin: 0 0 .9rem;
+  }
+  .receipt-col.col-checked h3 { color: #1f795b; }
+  .receipt-col.col-found h3 { color: #b3401f; }
+  .receipt-col.col-not-checked h3 { color: #8b4a24; }
+  .receipt-item { font-size: .92rem; color: #2f4658; margin-bottom: .9rem; }
+  .receipt-item .rc-label { display: block; font-weight: 650; color: var(--nv-navy); }
+  .receipt-item .rc-evidence {
+    display: block; margin-top: .2rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .8rem; color: #6e88a3; word-break: break-word;
+  }
+  .receipt-empty { color: #9db0bd; font-size: .88rem; }
+  @media (max-width: 700px) { .receipt { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body id="page-top">
+<nav class="navbar navbar-expand-lg fixed-top py-3" id="mainNav"><div class="container px-4 px-lg-5"><a class="navbar-brand" href="index.html"><img src="assets/brand/mark_transparent_512.png" alt=""><span>Nordverify</span></a><a class="nav-link" href="index.html#portfolio">Back to examples</a></div></nav>
+
+<header class="masthead">
+  <img class="hero-mark" src="assets/brand/mark_transparent_512.png" alt="" aria-hidden="true">
+  <div class="container px-4 px-lg-5 h-100 d-flex align-items-center">
+    <div class="hero-copy">
+      <div class="eyebrow mb-4">Free check</div>
+      <h1 class="text-white mb-4">Enter a URL. Get an honest receipt back.</h1>
+      <p class="lead mb-0">Six checks, each one something you can confirm yourself in ten seconds: does your front page open at all, does the browser warn people away before they reach it, do the links on it still go somewhere, does the page fit a phone screen, is there leftover text from whatever it was built from, and how old the date at the bottom is. Nothing here is an opinion.</p>
+    </div>
+  </div>
+</header>
+
+<section class="page-section" id="check">
+  <div class="container px-4 px-lg-5">
+    <div class="row justify-content-center"><div class="col-lg-9">
+
+      <form class="check-form" id="check-form">
+        <div class="row-inline">
+          <label for="check-url" class="visually-hidden">Website URL</label>
+          <!-- type="text", not type="url", on purpose. The field said example.com and
+     then the browser refused example.com, because input[type=url] demands a
+     scheme. Nothing happened when you pressed the button, which is the worst
+     kind of broken: silent. The script adds https:// itself. -->
+          <input type="text" id="check-url" name="url" placeholder="example.com" required
+                 inputmode="url" autocomplete="off" spellcheck="false">
+          <button class="btn btn-primary btn-lg" type="submit" id="check-submit">Check it</button>
+        </div>
+        <p class="privacy-line">The URL you enter is checked and not stored. I don't save anything about this check.</p>
+      </form>
+
+      <p class="check-status" id="check-status" hidden></p>
+
+      <!-- Shown when no relay is deployed yet. It is not an error state: the
+           check genuinely runs by hand at the moment, and this says so and
+           gives the visitor the action that works. -->
+      <div class="manual-check" id="manual-check" hidden aria-live="polite">
+        <h2>I run this one by hand right now</h2>
+        <p>The automatic version is not switched on yet, so I do it myself. Send me the address and I will run the same six checks and reply the same day with the receipt: what I checked, what I found, and what I could not check.</p>
+        <p><a class="btn btn-primary btn-lg" id="manual-check-link" href="mailto:merved@nordverify.com?subject=Please%20check%20my%20site">Email me the check</a></p>
+        <p class="privacy-line">Your address goes into your own mail program, so you can see exactly what you are sending before it leaves. It is not stored here.</p>
+      </div>
+
+      <div class="receipt" id="receipt" hidden aria-live="polite">
+        <div class="receipt-col col-checked">
+          <h3>Checked</h3>
+          <div id="col-checked"></div>
+        </div>
+        <div class="receipt-col col-found">
+          <h3>Found</h3>
+          <div id="col-found"></div>
+        </div>
+        <div class="receipt-col col-not-checked">
+          <h3>Not checked</h3>
+          <div id="col-not-checked"></div>
+        </div>
+      </div>
+
+    </div></div>
+  </div>
+</section>
+
+<aside class="contact-strip"><div class="container px-4 px-lg-5 d-flex flex-wrap justify-content-between gap-3"><span>Something in the FOUND column needs fixing?</span><a href="mailto:merved@nordverify.com?subject=Website%20fix">merved@nordverify.com</a></div></aside>
+
+<footer class="site-footer py-5"><div class="container px-4 px-lg-5"><div class="footer-row d-flex justify-content-between align-items-center gap-4">
+  <div class="d-flex align-items-center gap-3"><img class="footer-mark" src="assets/brand/mark_transparent_512.png" alt="Nordverify mark"><div><strong class="text-white">Nordverify v/Malthe Merved</strong><br>Denmark</div></div>
+  <div class="d-flex align-items-center gap-4"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:merved@nordverify.com">merved@nordverify.com</a></div>
+</div></div></footer>
+
+<script src="js/scripts.js"></script>
+<script src="js/check.js"></script>
+</body>
+</html>

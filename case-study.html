@@ -4,46 +4,59 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>309 scattered documents → one verified file</title>
-<meta name="description" content="How 309 documents spread across email threads became one ordered, deduplicated file — and how the count was verified rather than asserted.">
+<meta name="description" content="How 309 documents spread across email threads became one ordered file with the repeats removed — and how the count was verified rather than asserted.">
 <link rel="icon" type="image/png" sizes="256x256" href="assets/brand/favicon_256.png">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/brand/favicon_64.png">
 <link href="css/styles.css" rel="stylesheet">
 <link href="css/nordverify.css" rel="stylesheet">
+<style>
+  /* Scoped to this page: the plain-language opener and its link down to the
+     technical section, which keeps the rest of the page's own styling. */
+  .plain-receipt { background: #f2f5f7; padding: 1.75rem 2rem; margin: 2rem 0; }
+  .plain-receipt p { margin-bottom: .9rem; }
+  .plain-receipt p:last-child { margin-bottom: 0; }
+  .tech-link { margin: 1.5rem 0 0; }
+  .tech-link a { font-weight: 600; }
+</style>
 <!--
   THE CASE STUDY.
 
   Anonymised: no client, no company, no domain, no document titles. What is
   left is the method and the arithmetic, which is the part that sells anyway.
 
-  THE VERIFICATION IS COMPUTED IN THIS PAGE, not typed into it. The numbers in
-  the boxes below are produced by the script at the bottom from the per-batch
-  figures, in front of the reader. The page therefore demonstrates the exact
-  thing it is selling: a number you can check rather than a number you are
-  asked to believe. If the arithmetic did not add up, this page would say so
-  about itself.
+  ABOVE THE FOLD IS FOR THE PERSON WHO IS BUYING, NOT THE PERSON WHO WOULD
+  BUILD IT. What they got, in plain words, with one visible number, and a
+  receipt phrased the way the client would actually be told: what I checked,
+  what I found, what I did not check. The computed verification — the part
+  that proves the number rather than just stating it — moves intact behind
+  one link marked "For your technical person", because it is still true and
+  still worth having; it is just not the first thing a non-technical owner
+  needs to read.
 -->
 </head>
 <body id="page-top">
 <nav class="navbar navbar-expand-lg fixed-top py-3" id="mainNav"><div class="container px-4 px-lg-5"><a class="navbar-brand" href="index.html"><img src="assets/brand/mark_transparent_512.png" alt=""><span>Nordverify</span></a><a class="nav-link" href="index.html#portfolio">Back to examples</a></div></nav>
 <main>
-  <header class="masthead case-hero"><img class="hero-mark" src="assets/brand/mark_transparent_512.png" alt="" aria-hidden="true"><div class="container px-4 px-lg-5 h-100 d-flex align-items-center"><div class="hero-copy"><div class="eyebrow mb-4">Document collection · Case study</div><h1 class="text-white mb-4">309 scattered documents, collected into one checked file</h1><p class="lead mb-0">The client had years of attachments and shared links buried in email threads. The job was to collect them, remove duplicates and make it clear what had and had not been found.</p></div></div></header>
+  <div id="above-fold">
+  <header class="masthead case-hero"><img class="hero-mark" src="assets/brand/mark_transparent_512.png" alt="" aria-hidden="true"><div class="container px-4 px-lg-5 h-100 d-flex align-items-center"><div class="hero-copy"><div class="eyebrow mb-4">Document collection · What the client got</div><h1 class="text-white mb-4">309 scattered documents, collected into one checked file</h1><p class="lead mb-0">The client had years of attachments and shared links buried in email threads. I collected them, removed the duplicates, and handed back one file with a clear note of what could and could not be found.</p></div></div></header>
 
-  <section class="page-section"><div class="container px-4 px-lg-5"><div class="row justify-content-center"><div class="col-lg-8 case-body"><div class="eyebrow mb-4">The work</div>
-    <h2>The problem</h2>
-    <p>Several years of documents existed only as attachments and shared links inside email threads. Nobody could say how many there were. Two earlier attempts had produced folders that looked complete, but documents were still missing when someone went looking for them.</p>
-    <p>Collecting the files was only half the job. The client also needed to know how many had been found and where each one came from.</p>
-    <h2>What I did</h2>
-    <ol>
-      <li>I checked every thread for links and attachments, including files buried in quoted replies.</li>
-      <li>Each document was stored with its thread and date, so the client could find the source again.</li>
-      <li>Duplicates were matched by their contents rather than their filenames. The same document had been sent under four different names.</li>
-      <li>I counted the words at the source and again in the final file, then compared the two counts.</li>
-    </ol>
+  <section class="page-section"><div class="container px-4 px-lg-5"><div class="row justify-content-center"><div class="col-lg-8 case-body">
+    <div class="tiles"><div class="tile"><div class="n">309</div><div class="k">documents found, repeats removed, delivered as one file</div></div></div>
+
+    <div class="plain-receipt">
+      <h2>The receipt, in plain terms</h2>
+      <p><strong>What I checked.</strong> Every email thread for links and attachments, including files buried in quoted replies, matched by their contents rather than their filenames.</p>
+      <p><strong>What I found.</strong> 309 documents once duplicates were removed. The same document had sometimes been sent under four different names.</p>
+      <p><strong>What I did not check.</strong> A handful of links pointed at documents that no longer existed anywhere. I named those in the delivery instead of leaving them out silently.</p>
+    </div>
+
+    <p class="tech-link"><a href="#technical">For your technical person →</a></p>
   </div></div></div></section>
+  </div>
 
-  <section class="page-section proof-panel"><div class="container px-4 px-lg-5"><div class="row justify-content-center"><div class="col-lg-8 case-body"><div class="eyebrow mb-4">The check</div>
-    <h2>The result was checked, not guessed</h2>
-    <p>The total below comes from the recorded result. The detailed totals are computed by this page from the underlying batch figures, so any difference between the original documents and the delivered file is shown rather than hidden.</p>
+  <section class="page-section proof-panel" id="technical"><div class="container px-4 px-lg-5"><div class="row justify-content-center"><div class="col-lg-8 case-body"><div class="eyebrow mb-4">For your technical person</div>
+    <h2>How the number was verified, not guessed</h2>
+    <p>The 309 above is the recorded result. The detailed totals below are computed by this page from the underlying batch figures, so any difference between the original documents and the delivered file is shown rather than hidden.</p>
     <div class="tiles" id="tiles"></div>
     <div class="scroll"><table id="batches"><thead><tr><th>Batch</th><th>Found</th><th>Duplicates</th><th>Kept</th><th>Words at source</th><th>Words in file</th></tr></thead><tbody></tbody><tfoot></tfoot></table></div>
     <div class="verdict" id="verdict"></div>
@@ -51,7 +64,7 @@
 
   <section class="page-section"><div class="container px-4 px-lg-5"><div class="row gx-5"><div class="col-lg-6 case-body"><h2>Missing files were named</h2><p id="missing-note"></p><p>If a source file could no longer be retrieved, it was listed with the email thread it came from. The client could follow it up instead of assuming the final folder was complete.</p></div><div class="col-lg-6 case-body"><h2>Time spent</h2><p>The processing took less than a day of machine time and just over half an hour of the client's time for the brief and final check.</p><p><a href="mailto:merved@nordverify.com?subject=Document%20project">Ask me about a similar job →</a></p></div></div></div></section>
 </main>
-<footer class="site-footer py-5"><div class="container px-4 px-lg-5"><div class="footer-row d-flex justify-content-between align-items-center gap-4"><div class="d-flex align-items-center gap-3"><img class="footer-mark" src="assets/brand/mark_transparent_512.png" alt="Nordverify mark"><div><strong class="text-white">Nordverify v/Malthe Merved</strong><br>Denmark</div></div><a href="mailto:merved@nordverify.com">merved@nordverify.com</a></div></div></footer>
+<footer class="site-footer py-5"><div class="container px-4 px-lg-5"><div class="footer-row d-flex justify-content-between align-items-center gap-4"><div class="d-flex align-items-center gap-3"><img class="footer-mark" src="assets/brand/mark_transparent_512.png" alt="Nordverify mark"><div><strong class="text-white">Nordverify v/Malthe Merved</strong><br>Denmark</div></div><div class="d-flex align-items-center gap-4"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:merved@nordverify.com">merved@nordverify.com</a></div></div></div></footer>
 
 <script>
 /* ------------------------------------------------------------------------
@@ -62,11 +75,12 @@
    how many were found before dedupe, the word counts either side, how many
    links were dead — was never written down anywhere.
 
-   So it is NOT written here either. BATCHES is empty, and the page says the
-   detailed verification has not been published rather than showing a table of
-   plausible numbers. Inventing that table would have been easy, it would have
-   looked better, and it would have been a fabricated verification on the one
-   page whose entire argument is "a number you can check".
+   So it is NOT written here either. BATCHES is empty, and the technical
+   section says the detailed verification has not been published rather than
+   showing a table of plausible numbers. Inventing that table would have been
+   easy, it would have looked better, and it would have been a fabricated
+   verification on the one section whose entire argument is "a number you can
+   check".
 
    Fill BATCHES in from the job's own records and everything below appears on
    its own: the tiles, the table, the totals, and a verdict that will say the
@@ -124,7 +138,7 @@ function render(){
   if (r.state === "awaiting_figures"){
     tilesEl.innerHTML =
       '<div class="tile"><div class="n">' + nf(HEADLINE.documents) + '</div>' +
-      '<div class="k">documents collected, deduplicated and word-count ' +
+      '<div class="k">documents collected, repeats removed, every word counted ' +
       'verified against their sources</div></div>';
     tableEl.style.display = "none";
     verdictEl.className = "verdict";
